@@ -33,8 +33,6 @@ func part1() {
 		}
 	}
 
-	fmt.Println(counts)
-
 	var gamma uint64
 	for i := 0; i < size; i++ {
 		if counts[i] > 0 {
@@ -67,7 +65,6 @@ func run(list *list.List, invert bool) int64 {
 
 		// remove filtered bits
 		for e := list.Front(); e != nil; {
-			fmt.Println(e.Value, e.Value.(int64)&(1<<i) == 0)
 			if e.Value.(int64)&(1<<i) == 0 == filter {
 				e = e.Next()
 				if e == nil {
