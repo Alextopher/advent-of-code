@@ -35,6 +35,5 @@ with open(file) as f:
         for i in ins:
            costs[p] += sum(range(1, abs(i - p) + 1))
 
-
     for c in costs:
         print(c)

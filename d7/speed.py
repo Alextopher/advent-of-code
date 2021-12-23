@@ -28,4 +28,4 @@ x = int(-b/(2*a))
 
 # Print the cost
 cost = int(sum([integerSum(abs(i - x)) for i in data]))
-print(cost)
+print(x, cost)
