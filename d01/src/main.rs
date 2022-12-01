@@ -1,15 +1,8 @@
-use aoc::*;
+use aoc::{get_lines, iterstuff::IterJunk};
 use itertools::Itertools;
-use std::fs::File;
-use std::io::{BufRead, BufReader};
 
 fn main() {
-    let file = File::open("input.txt").unwrap();
-    let reader = BufReader::new(file);
-
-    let ans: Vec<i32> = reader
-        .lines()
-        .map(|l| l.unwrap())
+    let ans: Vec<_> = get_lines("input.txt")
         .group_by(String::is_empty)
         .into_iter()
         .filter_map(|(k, v)| if k { None } else { Some(v) })
