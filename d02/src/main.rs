@@ -9,17 +9,17 @@ enum RPS {
     Scissors,
 }
 
-    fn fix(outcome: XYZ, opponent: RPS) -> RPS {
-        match (outcome, opponent) {
-            (XYZ::Win, RPS::Rock) => RPS::Paper,
-            (XYZ::Win, RPS::Paper) => RPS::Scissors,
-            (XYZ::Win, RPS::Scissors) => RPS::Rock,
-            (XYZ::Draw, _) => opponent,
-            (XYZ::Lose, RPS::Rock) => RPS::Scissors,
-            (XYZ::Lose, RPS::Paper) => RPS::Rock,
-            (XYZ::Lose, RPS::Scissors) => RPS::Paper,
-        }
+fn fix(outcome: XYZ, opponent: RPS) -> RPS {
+    match (outcome, opponent) {
+        (XYZ::Win, RPS::Rock) => RPS::Paper,
+        (XYZ::Win, RPS::Paper) => RPS::Scissors,
+        (XYZ::Win, RPS::Scissors) => RPS::Rock,
+        (XYZ::Draw, _) => opponent,
+        (XYZ::Lose, RPS::Rock) => RPS::Scissors,
+        (XYZ::Lose, RPS::Paper) => RPS::Rock,
+        (XYZ::Lose, RPS::Scissors) => RPS::Paper,
     }
+}
 
 #[derive(Debug, Clone, Copy)]
 enum XYZ {
@@ -43,26 +43,18 @@ fn score(other: RPS, me: RPS) -> i32 {
 }
 
 fn main() {
+    let conversion = HashMap::from([('A', RPS::Rock), ('B', RPS::Paper), ('C', RPS::Scissors)]);
+
     let strat: Vec<(RPS, char)> = get_lines("input.txt")
-        .map(|l| (l.chars().next().unwrap(), l.chars().nth(2).unwrap()))
-        .map(|(a, b)| {
-            (
-                match a {
-                    'A' => RPS::Rock,
-                    'B' => RPS::Paper,
-                    'C' => RPS::Scissors,
-                    _ => unreachable!(),
-                },
-                b,
-            )
-        })
+        .map(|l| (l.chars().nth(0).unwrap(), l.chars().nth(2).unwrap()))
+        .map(|(a, b)| (*conversion.get(&a).unwrap(), b))
         .collect();
 
     let conversion = HashMap::from([('X', RPS::Rock), ('Y', RPS::Paper), ('Z', RPS::Scissors)]);
 
     let s: i32 = strat
         .iter()
-        .map(move |(a, b)| (*a, *conversion.get(&b).unwrap()))
+        .map(|(a, b)| (*a, *conversion.get(&b).unwrap()))
         .map(|(a, b)| score(a, b))
         .sum();
 
@@ -78,7 +70,6 @@ fn main() {
             score(a, m)
         })
         .sum();
-        
+
     println!("{}", s);
 }
-
