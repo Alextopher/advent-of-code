@@ -15,3 +15,4 @@ fn main() {
     println!("{}", ans[0]);
     println!("{}", ans.iter().sum::<i32>());
 }
+
