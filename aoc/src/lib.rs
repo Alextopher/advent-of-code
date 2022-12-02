@@ -1,4 +1,5 @@
 pub mod iterstuff;
+pub mod unionfind;
 
 use std::{
     fs::File,
