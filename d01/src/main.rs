@@ -5,7 +5,7 @@ fn main() {
     let ans: Vec<_> = get_lines("input.txt")
         .group_by(String::is_empty)
         .into_iter()
-        .filter_map(|(k, v)| if k { None } else { Some(v) })
+        .filter_map(|(k, v)| k.then_some(v))
         .map(|g| g.into_iter().map(|c| c.parse::<i32>().unwrap()).sum())
         .selection_sorted()
         .rev()
@@ -15,4 +15,3 @@ fn main() {
     println!("{}", ans[0]);
     println!("{}", ans.iter().sum::<i32>());
 }
-
