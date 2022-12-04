@@ -20,4 +20,4 @@ Bit masks
 
 **Day 4**
 
-Ranges? Zero cost abstractions
+`Input`, ranges.
