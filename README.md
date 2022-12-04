@@ -12,8 +12,12 @@ Find largest k elements in a list
 
 **Day 2**
 
-Rock Paper Scissors - mod trick
+Rock Paper Scissors - TODO: mod trick
 
 **Day 3**
 
 Bit masks
+
+**Day 4**
+
+Ranges? Zero cost abstractions
