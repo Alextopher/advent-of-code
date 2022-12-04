@@ -1,9 +1,9 @@
+use std::ops::BitAnd;
+
 use aoc::get_lines;
 use itertools::Itertools;
 
 fn get_mask(s: &str) -> u64 {
-    let mut mask = 0;
-
     s.chars()
         .map(|c| {
             if c.is_ascii_uppercase() {
@@ -12,9 +12,7 @@ fn get_mask(s: &str) -> u64 {
                 c as i32 - 'a' as i32 + 1
             }
         })
-        .for_each(|b| mask |= 1 << b);
-
-    mask
+        .fold(0, |acc, b| acc | (1 << b))
 }
 
 fn main() {
@@ -29,13 +27,10 @@ fn main() {
     println!("{ans}");
 
     let ans: u32 = get_lines("input.txt")
+        .map(|s| get_mask(&s))
         .chunks(3)
         .into_iter()
-        .map(|k| {
-            let mut mask = u64::MAX;
-            k.for_each(|s| mask &= get_mask(&s));
-            mask
-        })
+        .map(|k| k.fold(0, u64::bitand))
         .map(u64::trailing_zeros)
         .sum();
 
