@@ -1,5 +1,10 @@
+pub mod get_mut;
 pub mod iterstuff;
 pub mod unionfind;
+
+pub use get_mut::GetMultMut;
+pub use iterstuff::IterJunk;
+pub use unionfind::UnionFind;
 
 use std::{
     fs::File,

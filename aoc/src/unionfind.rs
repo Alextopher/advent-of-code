@@ -12,17 +12,18 @@ impl UnionFind {
         }
     }
 
-    /// number of elements in the set
+    /// `len` returns the number of elements in the union find.
     pub fn len(&self) -> usize {
         self.sizes.len()
     }
 
-    /// find what set 'a' belongs to
-    pub fn find(&mut self, a: usize) -> usize {
-        let root = self.find_no_compression(a);
+    /// `find` returns the root of the element at index `i`. It also performs
+    /// path compression.
+    pub fn find(&mut self, i: usize) -> usize {
+        let root = self.find_no_compression(i);
 
         // path compression
-        let mut parent = a;
+        let mut parent = i;
         while self.ids[parent] != parent {
             let tmp = self.ids[parent];
             self.ids[parent] = root;
@@ -32,19 +33,19 @@ impl UnionFind {
         root
     }
 
-    /// find what set 'a' belongs to without doing path compression
-    pub fn find_no_compression(&self, a: usize) -> usize {
-        let mut root = a;
+    /// `find_no_compression` returns the root of the element at index `i`
+    pub fn find_no_compression(&self, i: usize) -> usize {
+        let mut root = i;
         while self.ids[root] != root {
             root = self.ids[root]
         }
         root
     }
 
-    /// merge `a`'s set with `b`'s set
-    pub fn union(&mut self, a: usize, b: usize) {
-        let root1 = self.find(a);
-        let root2 = self.find(b);
+    /// `union` merges the sets containing `i` and `j`.
+    pub fn union(&mut self, i: usize, j: usize) {
+        let root1 = self.find(i);
+        let root2 = self.find(j);
 
         if root1 == root2 {
             return;
@@ -60,12 +61,13 @@ impl UnionFind {
         }
     }
 
-    /// return true if `a`'s set equals `b`'s set
+    /// `connected` returns true if the elements at index `i` and `j` are in
+    /// the same set.
     pub fn connected(&mut self, a: usize, b: usize) -> bool {
         self.find(a) == self.find(b)
     }
 
-    /// returns the number of elements in `a`
+    /// `size` returns the size of the set containing the element at index `i`.
     pub fn size(&mut self, a: usize) -> usize {
         let root = self.find(a);
         return self.sizes[root];

@@ -4,7 +4,7 @@ Solutions to <https://adventofcode.com/2022/>.
 
 ## Short descriptions 
 
-Here is a sorry attempt to add short descriptions of each problem.
+Here is an attempt to add some tags to each problem.
 
 **Day 1**
 
@@ -20,4 +20,9 @@ Bit masks
 
 **Day 4**
 
-`Input`, ranges.
+First time using `Inpt`, ranges.
+
+**Day 5**
+
+Stacks
+
