@@ -28,4 +28,4 @@ Stacks
 
 **Day 6**
 
-Moving windows
+Moving windows, Bit masks.
