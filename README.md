@@ -26,3 +26,6 @@ First time using `Inpt`, ranges.
 
 Stacks
 
+**Day 6**
+
+Moving windows
