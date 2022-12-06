@@ -1,140 +1,170 @@
-use std::{cmp::Ordering, collections::VecDeque};
+//! `iterstuff` implements some useful iterator adapters.
+use std::cmp::Ordering;
+
+use binary_heap_plus::BinaryHeap;
 
 impl<T: ?Sized> IterJunk for T where T: Iterator {}
 
 pub trait IterJunk: Iterator {
-    fn selection_sorted(self) -> SelectionBy<Self::Item, fn(&Self::Item, &Self::Item) -> Ordering>
+    /// `k_smallest_by` is a function that returns the k smallest elements of an iterator **unsorted**
+    /// according to a comparator function.
+    ///
+    /// If there are less than k elements in the iterator, it returns all of them.
+    ///
+    /// Only requires O(k) space, and O(n log k) time.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use aoc::iterstuff::IterJunk;
+    /// let v: Vec<i32> = vec![-5, 1, -3, 2, 4];
+    ///
+    /// let smallest: Vec<i32> = v.into_iter().k_smallest_by(3, |a, b| a.abs().cmp(&b.abs())).collect();
+    ///
+    /// // smallest might not be sorted, but it will be the 3 smallest elements
+    /// assert!(smallest.contains(&1));
+    /// assert!(smallest.contains(&2));
+    /// assert!(smallest.contains(&-3));
+    /// ```
+    fn k_smallest_by<F>(mut self, k: usize, cmp: F) -> std::vec::IntoIter<<Self as Iterator>::Item>
+    where
+        Self: Sized,
+        F: Fn(&Self::Item, &Self::Item) -> std::cmp::Ordering,
+    {
+        // Keep a max heap of the smallest k elements
+        let mut heap = BinaryHeap::with_capacity_by(k, &cmp);
+        heap.extend(self.by_ref().take(k));
+
+        for x in self {
+            let mut top = heap.peek_mut().unwrap();
+            if cmp(&x, &top) == Ordering::Less {
+                *top = x;
+            }
+        }
+
+        heap.into_vec().into_iter()
+    }
+
+    /// `k_largest_by` is a function that returns the k largest elements of an iterator **unsorted**
+    /// according to a comparator function. If there are less than k elements in the iterator, it
+    /// returns all of them.
+    ///
+    /// Only requires O(k) space, and O(n log k) time.
+    ///
+    /// # Examples
+    /// ```
+    /// use aoc::iterstuff::IterJunk;
+    /// let v: Vec<i32> = vec![-5, 1, 3, 2, -4];
+    /// let largest: Vec<i32> = v.into_iter().k_largest_by(3, |a, b| a.abs().cmp(&b.abs())).collect();
+    ///
+    /// // largest might not be sorted, but it will be the 3 largest elements
+    /// assert!(largest.contains(&-5));
+    /// assert!(largest.contains(&-4));
+    /// assert!(largest.contains(&3));
+    /// ```
+    fn k_largest_by<F>(self, k: usize, cmp: F) -> std::vec::IntoIter<<Self as Iterator>::Item>
+    where
+        Self: Sized,
+        F: Fn(&Self::Item, &Self::Item) -> std::cmp::Ordering,
+    {
+        self.k_smallest_by(k, |a, b| cmp(b, a))
+    }
+
+    /// `k_smallest` is a function that returns the k smallest elements of an iterator **unsorted**.
+    /// If there are less than k elements in the iterator, it returns all of them.
+    ///
+    /// Only requires O(k) space, and O(n log k) time.
+    ///
+    /// # Examples
+    /// ```
+    /// use aoc::iterstuff::IterJunk;
+    /// let v = vec![-5, 1, -3, 2, 4];
+    /// let smallest: Vec<i32> = v.into_iter().k_smallest(3).collect();
+    ///
+    /// // smallest might not be sorted, but it will be the 3 smallest elements
+    /// assert!(smallest.contains(&-5));
+    /// assert!(smallest.contains(&-3));
+    /// assert!(smallest.contains(&1));
+    /// ```
+    fn k_smallest(self, k: usize) -> std::vec::IntoIter<<Self as Iterator>::Item>
     where
         Self: Sized,
         Self::Item: Ord,
     {
-        SelectionBy::new(self.collect(), Self::Item::cmp)
+        self.k_smallest_by(k, |a, b| a.cmp(b))
     }
 
-    fn selection_sorted_by<F>(self, cmp: F) -> SelectionBy<Self::Item, F>
+    /// `k_largest` is a function that returns the k largest elements of an iterator **unsorted**.
+    /// If there are less than k elements in the iterator, it returns all of them.
+    ///
+    /// Only requires O(k) space, and O(n log k) time.
+    ///
+    /// # Examples
+    /// ```
+    /// use aoc::iterstuff::IterJunk;
+    /// let v = vec![-5, 1, 3, 2, -4];
+    /// let largest: Vec<i32> = v.into_iter().k_largest(3).collect();
+    ///
+    /// // largest might not be sorted, but it will be the 3 largest elements
+    /// assert!(largest.contains(&3));
+    /// assert!(largest.contains(&2));
+    /// assert!(largest.contains(&1));
+    /// ```
+    fn k_largest(self, k: usize) -> std::vec::IntoIter<<Self as Iterator>::Item>
     where
         Self: Sized,
         Self::Item: Ord,
-        F: FnMut(&Self::Item, &Self::Item) -> Ordering,
     {
-        SelectionBy::new(self.collect(), cmp)
+        self.k_largest_by(k, |a, b| a.cmp(b))
     }
 
-    fn selection_sorted_by_key<K, F>(self, k: F) -> SelectionBy<K, fn(&K, &K) -> Ordering>
+    /// `k_smallest_by_key` is a function that returns the k smallest elements of an iterator **unsorted**
+    /// according to a key function. If there are less than k elements in the iterator, it returns all of them.
+    ///
+    /// Only requires O(k) space, and O(n log k) time.
+    ///
+    /// # Examples
+    /// ```
+    /// use aoc::iterstuff::IterJunk;
+    /// let v: Vec<i32> = vec![-5, 1, -3, 2, 4];
+    /// let smallest: Vec<i32> = v.into_iter().k_smallest_by_key(3, |x| x.abs()).collect();
+    ///
+    /// // smallest might not be sorted, but it will be the 3 smallest elements
+    /// assert!(smallest.contains(&1));
+    /// assert!(smallest.contains(&2));
+    /// assert!(smallest.contains(&-3));
+    /// ```
+    fn k_smallest_by_key<F, K>(self, k: usize, f: F) -> std::vec::IntoIter<<Self as Iterator>::Item>
     where
         Self: Sized,
+        F: Fn(&Self::Item) -> K,
         K: Ord,
-        F: FnMut(Self::Item) -> K,
     {
-        SelectionBy::new(self.map(k).collect(), K::cmp)
-    }
-}
-
-pub struct SelectionBy<Item, F> {
-    head: VecDeque<Item>,
-    body: Vec<Item>,
-    tail: VecDeque<Item>,
-    f: F,
-}
-
-impl<Item, F> SelectionBy<Item, F> {
-    fn new(body: Vec<Item>, f: F) -> Self {
-        Self {
-            head: VecDeque::new(),
-            body,
-            tail: VecDeque::new(),
-            f,
-        }
-    }
-}
-
-impl<Item, F> Iterator for SelectionBy<Item, F>
-where
-    Item: Ord,
-    F: FnMut(&Item, &Item) -> Ordering + Copy,
-{
-    type Item = Item;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        if !self.head.is_empty() {
-            self.head.pop_front()
-        } else if !self.body.is_empty() {
-            let (min_index, _) = self
-                .body
-                .iter()
-                .enumerate()
-                .min_by(|(_, v1), (_, v2)| (self.f)(*v1, *v2))?;
-
-            Some(self.body.swap_remove(min_index))
-        } else {
-            self.tail.pop_front()
-        }
+        self.k_smallest_by(k, |a, b| f(a).cmp(&f(b)))
     }
 
-    fn nth(&mut self, n: usize) -> Option<Self::Item> {
-        let a = self.head.len();
-        let b = a + self.body.len();
-        let c = a + b + self.tail.len();
-
-        if n <= a {
-            self.head.drain(0..n).last()
-        } else if a < n && n <= b {
-            let k = n - a;
-            self.head.clear();
-
-            self.body.select_nth_unstable_by(k, self.f);
-            self.body.drain(0..k).last()
-        } else if b < n && n <= c {
-            let k = n - b;
-            self.head.clear();
-            self.body.clear();
-    
-            self.tail.drain(0..k).last()
-        } else {
-            self.head.clear();
-            self.body.clear();
-            self.tail.clear();
-
-            None
-        }
-    }
-
-    fn size_hint(&self) -> (usize, Option<usize>) {
-        let len = self.head.len() + self.body.len() + self.tail.len();
-        (len, Some(len))
-    }
-}
-
-impl<Item, F> DoubleEndedIterator for SelectionBy<Item, F>
-where
-    Item: Ord,
-    F: FnMut(&Item, &Item) -> Ordering + Copy,
-{
-    fn next_back(&mut self) -> Option<Self::Item> {
-        if !self.tail.is_empty() {
-            self.head.pop_back()
-        } else if !self.body.is_empty() {
-            let (max_index, _) = self
-                .body
-                .iter()
-                .enumerate()
-                .max_by(|(_, v1), (_, v2)| (self.f)(*v1, *v2))?;
-
-            Some(self.body.swap_remove(max_index))
-        } else {
-            self.head.pop_back()
-        }
-    }
-}
-
-impl<Item, F> ExactSizeIterator for SelectionBy<Item, F>
-where
-    Item: Ord,
-    F: FnMut(&Item, &Item) -> Ordering + Copy,
-{
-    fn len(&self) -> usize {
-        let (lower, upper) = self.size_hint();
-        debug_assert_eq!(upper, Some(lower));
-        lower
+    /// `k_largest_by_key` is a function that returns the k largest elements of an iterator **unsorted**
+    /// according to a key function. If there are less than k elements in the iterator, it returns all of them.
+    ///
+    /// Only requires O(k) space, and O(n log k) time.
+    ///
+    /// # Examples
+    /// ```
+    /// use aoc::iterstuff::IterJunk;
+    /// let v: Vec<i32> = vec![-5, 1, 3, 2, -4];
+    /// let largest: Vec<i32> = v.into_iter().k_largest_by_key(3, |x| x.abs()).collect();
+    ///
+    /// // largest might not be sorted, but it will be the 3 largest elements
+    /// assert!(largest.contains(&-5));
+    /// assert!(largest.contains(&-4));
+    /// assert!(largest.contains(&3));
+    /// ```
+    fn k_largest_by_key<F, K>(self, k: usize, f: F) -> std::vec::IntoIter<<Self as Iterator>::Item>
+    where
+        Self: Sized,
+        F: Fn(&Self::Item) -> K,
+        K: Ord,
+    {
+        self.k_largest_by(k, |a, b| f(a).cmp(&f(b)))
     }
 }

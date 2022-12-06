@@ -1,17 +1,24 @@
 use aoc::{get_lines, iterstuff::IterJunk};
 use itertools::Itertools;
+use std::time::Instant;
 
 fn main() {
-    let ans: Vec<_> = get_lines("input.txt")
+    let lines = get_lines("input.txt");
+
+    let time = Instant::now();
+
+    let ans: Vec<i32> = lines
         .group_by(String::is_empty)
         .into_iter()
         .filter_map(|(k, v)| (!k).then_some(v))
         .map(|g| g.into_iter().map(|c| c.parse::<i32>().unwrap()).sum())
-        .selection_sorted()
-        .rev()
-        .take(3)
-        .collect();
+        .k_largest(3)
+        .collect_vec();
 
-    println!("{}", ans[0]);
-    println!("{}", ans.iter().sum::<i32>());
+    let part1 = ans.iter().max().unwrap();
+    let part2 = ans.iter().min().unwrap();
+    println!("{:?}", time.elapsed());
+
+    println!("Part 1: {}", part1);
+    println!("Part 2: {}", part2);
 }
