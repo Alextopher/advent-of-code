@@ -3,10 +3,12 @@ use std::time::Instant;
 use aoc::get_lines;
 use itertools::Itertools;
 
-fn main() {
-    let lines = get_lines("input.txt");
-
+fn solution(filename: &str) -> (usize, i32) {
     let mut time = Instant::now();
+
+    let lines = get_lines(filename);
+    println!("Read file {:?}", time.elapsed());
+    time = Instant::now();
 
     // need to read a square input
     let mut forest: Vec<Vec<(i32, bool, i32)>> = lines
@@ -19,6 +21,9 @@ fn main() {
 
     let width = forest[0].len();
     let height = forest.len();
+    
+    println!("Parse file {:?}", time.elapsed());
+    time = Instant::now();
 
     for x in 0..width {
         let mut last = -1;
@@ -65,10 +70,7 @@ fn main() {
         .map(|row| row.iter().filter(|(_, visible, _)| *visible).count())
         .sum::<usize>();
 
-    println!("{:?}", time.elapsed());
-
-    println!("{}", count);
-
+    println!("{} {:?}", count, time.elapsed());
     time = Instant::now();
 
     // for each tree
@@ -118,13 +120,34 @@ fn main() {
     }
 
     // print the max number of trees
-    let max = forest
+    let best = forest
         .iter()
         .map(|row| row.iter().map(|(_, _, count)| count).max().unwrap())
         .max()
         .unwrap();
 
-    println!("{:?}", time.elapsed());
+    println!("{} {:?}", best, time.elapsed());
 
-    println!("{}", max);
+    (count, *best)
 }
+
+fn main() {
+    solution("input.txt");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_input() {
+        assert_eq!(solution("input.txt"), (1690, 535680));
+    }
+
+    #[test]
+    fn test_example() {
+        assert_eq!(solution("example.txt"), (21, 8));
+    }
+}
+
+

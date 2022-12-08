@@ -1,4 +1,4 @@
-use std::collections::VecDeque;
+use std::{collections::VecDeque, time::Instant};
 
 use aoc::*;
 use inpt::Inpt;
@@ -13,11 +13,14 @@ struct Input {
     to: usize,
 }
 
-fn main() {
-    let mut lines = get_lines("input.txt");
+fn solution(filename: &str, stacks: usize) -> (String, String) {
+    let mut time = Instant::now();
 
-    let mut stacks_part1: Vec<VecDeque<char>> = (0..9).map(|_| VecDeque::new()).collect();
-    let mut stacks_part2: Vec<VecDeque<char>> = (0..9).map(|_| VecDeque::new()).collect();
+    let mut lines = aoc::get_lines(filename).peekable();
+    println!("Read input {:?}", time.elapsed());
+    time = Instant::now();
+
+    let mut stacks_part1: Vec<VecDeque<char>> = (0..stacks).map(|_| VecDeque::new()).collect();
 
     //             [C]         [N] [R]
     // [J] [T]     [H]         [P] [L]
@@ -36,18 +39,18 @@ fn main() {
                 // we only care about positions 1, 5, 9, etc.
                 if i % 4 == 1 && c != ' ' {
                     stacks_part1[i / 4].push_front(c);
-                    stacks_part2[i / 4].push_front(c);
                 }
             });
         });
 
-    // move 4 from 9 to 6
-    // move 7 from 2 to 5
-    // move 3 from 5 to 2
-    // move 2 from 2 to 1
+    // Clone the stacks for part 2
+    let mut stacks_part2 = stacks_part1.clone();
+
     let instructions = lines
         .map(|line| inpt::inpt::<Input>(&line).unwrap())
         .collect_vec();
+
+    println!("Parse input {:?}", time.elapsed());
 
     instructions.iter().for_each(|Input { count, from, to }| {
         let (from, to) = stacks_part1.get_mut_2(from - 1, to - 1);
@@ -62,7 +65,8 @@ fn main() {
         .map(|s| s.back().unwrap())
         .join("")
         .to_string();
-    println!("{}", part1);
+
+    println!("{} {:?}", part1, time.elapsed());
 
     instructions.iter().for_each(|Input { count, from, to }| {
         let (from, to) = stacks_part2.get_mut_2(from - 1, to - 1);
@@ -77,5 +81,33 @@ fn main() {
         .map(|s| s.back().unwrap())
         .join("")
         .to_string();
-    println!("{}", part2);
+
+    println!("{} {:?}", part2, time.elapsed());
+
+    (part1, part2)
+}
+
+fn main() {
+    solution("input.txt", 9);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_input() {
+        assert_eq!(
+            solution("input.txt", 9),
+            ("LBLVVTVLP".to_string(), "TPFFBDRJD".to_string())
+        );
+    }
+
+    #[test]
+    fn test_example() {
+        assert_eq!(
+            solution("example.txt", 3),
+            ("CMZ".to_string(), "MCD".to_string())
+        );
+    }
 }

@@ -3,11 +3,11 @@ use std::{cell::RefCell, time::Instant};
 use aoc::{Node, Tree};
 use itertools::Itertools;
 
-fn main() {
+fn solution(filename: &str) -> (usize, usize) {
     let mut time = Instant::now();
-    let mut lines = aoc::get_lines("input.txt").peekable();
 
     // Don't count the time it takes to read the input into memory
+    let mut lines = aoc::get_lines(filename).peekable();
     println!("Read input {:?}", time.elapsed());
     time = Instant::now();
 
@@ -91,6 +91,8 @@ fn main() {
         .unwrap();
 
     println!("{} {:?}", smallest_file_size, time.elapsed());
+
+    (sum, smallest_file_size)
 }
 
 /// Update the sizes of all the directories to include the sizes of their children
@@ -107,5 +109,24 @@ fn update_sizes(node: &mut Node<RefCell<(String, Option<usize>)>>) {
     match inner.1 {
         Some(ref mut s) => *s += size,
         None => inner.1 = Some(size),
+    }
+}
+
+fn main() {
+    solution("input.txt");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_example() {
+        assert_eq!(solution("example.txt"), (95437, 24933642));
+    }
+
+    #[test]
+    fn test_input() {
+        assert_eq!(solution("input.txt"), (1391690, 5469168));
     }
 }
