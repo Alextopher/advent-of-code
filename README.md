@@ -20,7 +20,7 @@ Bit masks
 
 **Day 4**
 
-First time using `Inpt`, ranges.
+Ranges
 
 **Day 5**
 
@@ -29,3 +29,11 @@ Stacks
 **Day 6**
 
 Moving windows, Bit masks.
+
+**Day 7**
+
+A tree with back pointers.
+
+**Day 8**
+
+2D array
