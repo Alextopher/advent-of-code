@@ -24,17 +24,6 @@ impl NodeInner {
             NodeInner::Directory(children) => Some(children),
         }
     }
-
-    fn is_file(&self) -> bool {
-        matches!(self, NodeInner::File(_))
-    }
-
-    fn as_file(&self) -> Option<u32> {
-        match &self {
-            NodeInner::File(size) => Some(*size),
-            NodeInner::Directory(_) => None,
-        }
-    }
 }
 
 #[derive(Debug)]
