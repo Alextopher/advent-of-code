@@ -1,0 +1,12 @@
+[workspace]
+members = [
+    "aoc",
+    "d01-calorie-counting",
+    "d02-rock-paper-scissors",
+    "d03-rucksack-reorganization",
+    "d04-camp-cleanup",
+    "d05-supply-stacks",
+    "d06-tuning-trouble",
+    "d07-no-space-left-on-device",
+    "d08-treetop-tree-house",
+]

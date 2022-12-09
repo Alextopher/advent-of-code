@@ -1,5 +1,6 @@
 pub mod get_mut;
 pub mod iterstuff;
+pub mod stringstuff;
 pub mod tree;
 pub mod unionfind;
 
