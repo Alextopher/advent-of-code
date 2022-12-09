@@ -40,4 +40,4 @@ A tree with back pointers.
 
 **Day 9**
 
-HashSets
+HashSet, signum.
