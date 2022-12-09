@@ -12,7 +12,7 @@ Find largest k elements in a list
 
 **Day 2**
 
-Rock Paper Scissors - TODO: mod trick
+Rock Paper Scissors - the mod trick
 
 **Day 3**
 
