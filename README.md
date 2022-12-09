@@ -37,3 +37,7 @@ A tree with back pointers.
 **Day 8**
 
 2D array
+
+**Day 9**
+
+HashSets

@@ -1,11 +1,8 @@
 use aoc::{get_lines, GetMultMut};
 use itertools::Itertools;
-use std::{
-    cmp::{max, min},
-    collections::HashSet,
-};
+use std::collections::HashSet;
 
-fn main() {
+fn part1(filename: &str) -> usize {
     // okay I need a 2d array backed by HashMap
     let mut grid: HashSet<(i32, i32)> = HashSet::new();
 
@@ -16,11 +13,7 @@ fn main() {
     grid.insert((0, 0));
 
     // follow the instructions
-    // R 4
-    // U 4
-    // L 3
-    // D 1
-    for line in get_lines("example.txt") {
+    for line in get_lines(filename) {
         let mut chars = line.chars();
         let dir = chars.next().unwrap();
         chars.next(); // skip comma
@@ -52,10 +45,10 @@ fn main() {
         }
     }
 
-    // count the number of intersections
-    let count = grid.iter().count();
-    println!("{}", count);
+    grid.len()
+}
 
+fn part2(filename: &str) -> usize {
     // Need to do the same thing but now we have 10 connected groups
     let mut grid: HashSet<(i32, i32)> = HashSet::new();
 
@@ -64,7 +57,7 @@ fn main() {
     grid.insert(tails[0]);
 
     // follow the instructions
-    for line in get_lines("input.txt") {
+    for line in get_lines(filename) {
         let mut chars = line.chars();
         let dir = chars.next().unwrap();
         chars.next(); // skip comma
@@ -85,7 +78,7 @@ fn main() {
 
             // window over pairs of tails
             for (i, j) in (0..tails.len()).tuple_windows() {
-                let (tail, head) = tails.get_mut_2(j, i);
+                let (head, tail) = tails.get_mut_2(i, j);
 
                 let dx: i32 = head.0 - tail.0;
                 let dy: i32 = head.1 - tail.1;
@@ -97,7 +90,6 @@ fn main() {
 
                     // only track the last tail
                     if j == 9 {
-                        println!("{} {}", tail.0, tail.1);
                         grid.insert(*tail);
                     }
                 }
@@ -105,30 +97,27 @@ fn main() {
         }
     }
 
-    print_grid(&grid, &tails, tails[0]);
-    println!("{}", grid.len());
+    grid.len()
 }
 
-fn print_grid(grid: &HashSet<(i32, i32)>, tails: &[(i32, i32)], (head_x, head_y): (i32, i32)) {
-    // print the grid
-    let min_x = min(*grid.iter().map(|(x, _)| x).min().unwrap(), head_x);
-    let max_x = max(*grid.iter().map(|(x, _)| x).max().unwrap(), head_x);
-    let min_y = min(*grid.iter().map(|(_, y)| y).min().unwrap(), head_y);
-    let max_y = max(*grid.iter().map(|(_, y)| y).max().unwrap(), head_y);
+fn main() {
+    println!("{}", part1("input.txt"));
+    println!("{}", part2("input.txt"));
+}
 
-    for y in (min_y..=max_y).rev() {
-        for x in min_x..=max_x {
-            if x == head_x && y == head_y {
-                print!("H");
-            } else if let Some((i, _)) = tails.iter().enumerate().find(|(_, p)| **p == (x, y)) {
-                print!("{}", i);
-            } else if grid.contains(&(x, y)) {
-                print!("#");
-            } else {
-                print!(".");
-            }
-        }
-        println!();
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_input() {
+        assert_eq!(part1("input.txt"), 6037);
+        assert_eq!(part2("input.txt"), 2485);
     }
-    println!();
+
+    #[test]
+    fn test_example() {
+        assert_eq!(part1("example_1.txt"), 13);
+        assert_eq!(part2("example_2.txt"), 36);
+    }
 }
