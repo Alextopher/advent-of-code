@@ -9,4 +9,5 @@ members = [
     "d06-tuning-trouble",
     "d07-no-space-left-on-device",
     "d08-treetop-tree-house",
+    "d09",
 ]
