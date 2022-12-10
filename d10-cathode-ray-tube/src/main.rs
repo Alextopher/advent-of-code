@@ -1,12 +1,11 @@
 use aoc::*;
-use itertools::Itertools;
 
 enum Instruction {
     Noop(),
     Addx(i32),
 }
 
-fn solution(input: &str) -> i32 {
+fn part1(input: &str) -> i32 {
     let lines = get_lines(input);
 
     // each line is either "noop" or it's "addx num" where num can be negative
@@ -59,7 +58,7 @@ fn solution(input: &str) -> i32 {
     score
 }
 
-fn solution2(input: &str) {
+fn part2(input: &str) {
     let lines = get_lines(input);
 
     // each line is either "noop" or it's "addx num" where num can be negative
@@ -113,11 +112,19 @@ fn solution2(input: &str) {
 }
 
 fn main() {
-    println!("{}", solution("example.txt"));
-    println!("{}", solution("input.txt"));
+    println!("{}", part1("input.txt"));
 
-    solution2("example.txt");
-    println!();
-    println!();
-    solution2("input.txt");
+    part2("example.txt");
+    part2("input.txt");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_input() {
+        assert_eq!(part1("example.txt"), 13140);
+        assert_eq!(part1("input.txt"), 14360);
+    }
 }
