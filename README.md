@@ -41,3 +41,7 @@ A tree with back pointers.
 **Day 9**
 
 HashSet, signum.
+
+**Day 10**
+
+I bet this is a CPU primer for a future day
