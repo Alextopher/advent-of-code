@@ -134,6 +134,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "d10"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "inpt",
+ "itertools",
+ "petgraph",
+]
+
+[[package]]
+name = "d18-2021"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "itertools",
+]
+
+[[package]]
 name = "darling"
 version = "0.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"

@@ -10,4 +10,8 @@ members = [
     "d07-no-space-left-on-device",
     "d08-treetop-tree-house",
     "d09-rope-bridge",
+    "d10-cathode-ray-tube",
+
+
+    "d18-2021",
 ]
