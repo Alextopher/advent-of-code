@@ -17,6 +17,11 @@ impl UnionFind {
         self.sizes.len()
     }
 
+    /// `is_empty` returns true if the union find contains no elements.
+    pub fn is_empty(&self) -> bool {
+        self.len() == 0
+    }
+
     /// `find` returns the root of the element at index `i`. It also performs
     /// path compression.
     pub fn find(&mut self, i: usize) -> usize {
@@ -70,6 +75,6 @@ impl UnionFind {
     /// `size` returns the size of the set containing the element at index `i`.
     pub fn size(&mut self, a: usize) -> usize {
         let root = self.find(a);
-        return self.sizes[root];
+        self.sizes[root]
     }
 }

@@ -4,12 +4,10 @@ use std::{
     rc::{Rc, Weak},
 };
 
-#[derive(Debug)]
 pub struct Tree<T> {
     root: Node<T>,
 }
 
-#[derive(Debug)]
 pub struct Node<T>(Rc<NodeInner<T>>);
 
 #[derive(Debug)]
@@ -112,7 +110,7 @@ impl<T> Tree<T> {
 
     /// Iterate over all nodes in the tree, in postorder.
     ///
-    /// Unlike iter_preorder this iterator is not lazily created. We use O(tree)
+    /// Unlike iter_preorder this iterator is not lazily created. We use O(size)
     /// additional memory to create the iterator.
     ///
     /// ```
@@ -195,6 +193,31 @@ impl<T> Tree<T> {
     // TODO: iter_inorder, iter_inorder_depth
 }
 
+impl <T: std::fmt::Debug> std::fmt::Debug for Tree<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.root.display_debug(f, 0)
+    }
+}
+
+impl <T: std::fmt::Display> std::fmt::Display for Tree<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.root.display(f, 0)
+    }
+}
+
+impl<T> TryFrom<Node<T>> for Tree<T> {
+    type Error = ();
+
+    fn try_from(node: Node<T>) -> Result<Self, Self::Error> {
+        // The node's parent must be None
+        if node.parent() != None {
+            return Err(());
+        } else {
+            Ok(Tree { root: node })
+        }
+    }
+}
+
 impl<T> Node<T> {
     /// Create a new node with the given value and no parent or children.
     pub fn new(inner: T) -> Self {
@@ -232,6 +255,12 @@ impl<T> Node<T> {
         Node(child)
     }
 
+    /// `add_child_node` adds a child node to this node.
+    pub fn add_child_node(&mut self, child: Node<T>) {
+        self.0.children.borrow_mut().push(child.0.clone());
+        *child.0.parent.borrow_mut() = Rc::downgrade(&self.0);
+    }
+
     /// Removes a child from the node and returns it.
     ///
     /// If the marked node is not a child of the node, returns `None`.
@@ -242,6 +271,48 @@ impl<T> Node<T> {
         let index = children.iter().position(|c| Rc::ptr_eq(&c, &child.0))?;
 
         Some(Node(children.remove(index)))
+    }
+}
+
+impl <T: std::fmt::Debug> Node<T> {
+    fn display_debug(&self, f: &mut std::fmt::Formatter<'_>, depth: usize) -> std::fmt::Result {
+        for _ in 0..depth {
+            write!(f, "  ")?;
+        }
+        writeln!(f, "{:?}", self.0.inner)?;
+
+        for child in self.children() {
+            child.display_debug(f, depth + 1)?;
+        }
+
+        Ok(())
+    }
+}
+
+impl <T: std::fmt::Display> Node<T> {
+    fn display(&self, f: &mut std::fmt::Formatter<'_>, depth: usize) -> std::fmt::Result {
+        for _ in 0..depth {
+            write!(f, "  ")?;
+        }
+        writeln!(f, "{}", self.0.inner)?;
+
+        for child in self.children() {
+            child.display(f, depth + 1)?;
+        }
+
+        Ok(())
+    }
+}
+
+impl <T: std::fmt::Debug> std::fmt::Debug for Node<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.display_debug(f, 0)
+    }
+}
+
+impl <T: std::fmt::Display> std::fmt::Display for Node<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.display(f, 0)
     }
 }
 

@@ -1,10 +1,11 @@
+pub mod algs;
 pub mod get_mut;
 pub mod iterstuff;
 pub mod stringstuff;
 pub mod tree;
 pub mod unionfind;
 
-pub use get_mut::GetMultMut;
+pub use get_mut::GetMany;
 pub use iterstuff::IterJunk;
 pub use tree::{Node, Tree};
 pub use unionfind::UnionFind;

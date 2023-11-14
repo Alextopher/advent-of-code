@@ -2,46 +2,50 @@
 
 Solutions to <https://adventofcode.com/2022/>.
 
-## Short descriptions 
+## Short descriptions
 
 Here is an attempt to add some tags to each problem.
 
-**Day 1**
+### Day 1
 
 Find largest k elements in a list
 
-**Day 2**
+### Day 2
 
-Rock Paper Scissors - the mod trick
+Rock Paper Scissors (the mod trick)
 
-**Day 3**
+### Day 3
 
 Bit masks
 
-**Day 4**
+### Day 4
 
 Ranges
 
-**Day 5**
+### Day 5
 
 Stacks
 
-**Day 6**
+### Day 6
 
 Moving windows, Bit masks.
 
-**Day 7**
+### Day 7
 
 A tree with back pointers.
 
-**Day 8**
+### Day 8
 
 2D array
 
-**Day 9**
+### Day 9
 
 HashSet, signum.
 
-**Day 10**
+### Day 10
 
-I bet this is a CPU primer for a future day
+A simple interpreter
+
+### Day 11
+
+Modular arithmetic

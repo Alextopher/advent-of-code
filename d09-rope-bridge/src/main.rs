@@ -1,4 +1,4 @@
-use aoc::{get_lines, GetMultMut};
+use aoc::{get_lines, GetMany};
 use itertools::Itertools;
 use std::collections::HashSet;
 
