@@ -12,6 +12,7 @@ impl BoundingBox {
         self.0.contains(&x) && self.1.contains(&y) && self.2.contains(&z)
     }
 
+    // Returns a list of voxels within the bounding box
     fn iter(&self) -> impl Iterator<Item = (i32, i32, i32)> {
         let mut voxels = vec![];
         for i in self.0.clone() {
@@ -22,7 +23,34 @@ impl BoundingBox {
             }
         }
 
-        return voxels.into_iter();
+        voxels.into_iter()
+    }
+
+    // Returns a list of voxel on the outside of the bounding box
+    fn enclosing(&self) -> impl Iterator<Item = (i32, i32, i32)> {
+        let mut voxels = vec![];
+        for i in self.0.clone() {
+            for j in self.1.clone() {
+                voxels.push((i, j, self.2.start - 1));
+                voxels.push((i, j, self.2.end));
+            }
+        }
+
+        for i in self.0.clone() {
+            for k in self.2.clone() {
+                voxels.push((i, self.1.start - 1, k));
+                voxels.push((i, self.1.end, k));
+            }
+        }
+
+        for j in self.1.clone() {
+            for k in self.2.clone() {
+                voxels.push((self.0.start - 1, j, k));
+                voxels.push((self.0.end, j, k));
+            }
+        }
+
+        voxels.into_iter()
     }
 }
 
@@ -71,8 +99,7 @@ impl Boulder {
     fn surface_area(&self) -> usize {
         self.voxels
             .iter()
-            .map(|&(x, y, z)| self.neighbors(x, y, z))
-            .flatten()
+            .flat_map(|&(x, y, z)| self.neighbors(x, y, z))
             .filter(|&(x, y, z)| !self.is_solid(x, y, z))
             .count()
     }
@@ -95,52 +122,39 @@ impl Boulder {
             z_max = z_max.max(z);
         }
 
-        BoundingBox::new(x_min..x_max, y_min..y_max, z_min..z_max)
+        BoundingBox::new(x_min..x_max + 1, y_min..y_max + 1, z_min..z_max + 1)
     }
 
-    // Any air voxel that has a direct path leading outside of the bounding box turns to stone
+    // Any air voxel that has a path outside the bounding box becomes stone
     fn fill(&mut self) {
         let bounding = self.bounding_box();
 
-        let mut work: HashSet<(i32, i32, i32)> = bounding
-            .iter()
-            .filter(|&(x, y, z)| !self.is_solid(x, y, z))
-            .collect();
+        let mut queue = bounding.enclosing().collect::<Vec<_>>();
+        let mut visited = HashSet::new();
 
-        while let Some((x, y, z)) = work.iter().next().cloned() {
-            work.remove(&(x, y, z));
-
-            // Check if there is a path from this voxel to the outside
-            let mut visited = HashSet::new();
-            let mut queue = vec![(x, y, z)];
-            let mut found = false;
-
-            while let Some((x, y, z)) = queue.pop() {
-                if !bounding.contains(x, y, z) {
-                    found = true;
-                    break;
-                }
-
-                if visited.contains(&(x, y, z)) {
-                    continue;
-                }
-
-                visited.insert((x, y, z));
-
-                queue.extend(
-                    self.neighbors(x, y, z)
-                        .into_iter()
-                        .filter(|&(x, y, z)| !self.is_solid(x, y, z)),
-                );
+        while let Some((x, y, z)) = queue.pop() {
+            if visited.contains(&(x, y, z)) {
+                continue;
             }
 
-            for voxel in visited.drain() {
-                work.remove(&voxel);
+            visited.insert((x, y, z));
 
-                if !found {
-                    self.voxels.insert(voxel);
-                }
-            }
+            // Only consider
+            // - voxels in the bounding box
+            // - voxels that are air
+            // - voxels that we haven't visited (optional)
+            queue.extend(
+                self.neighbors(x, y, z)
+                    .into_iter()
+                    .filter(|&(x, y, z)| bounding.contains(x, y, z))
+                    .filter(|&(x, y, z)| !self.is_solid(x, y, z))
+                    .filter(|v| !visited.contains(v)),
+            );
+        }
+
+        // Any voxel that we _haven't_ visited becomes stone
+        for (x, y, z) in bounding.iter().filter(|v| !visited.contains(v)) {
+            self.voxels.insert((x, y, z));
         }
     }
 }
@@ -180,5 +194,27 @@ mod test {
     #[test]
     fn test_part2() {
         assert_eq!(part2(include_str!("../input.txt")), 2428);
+    }
+
+    // Shows that all 'enclosing' voxels have at least one neighbor within the bounding box
+    #[test]
+    fn prove_bounding_box() {
+        let input = include_str!("../input.txt");
+        let boulder = Boulder::from(input);
+        let bounding = boulder.bounding_box();
+
+        let bad = bounding
+            .enclosing()
+            .filter(|&(x, y, z)| {
+                boulder
+                    .neighbors(x, y, z)
+                    .into_iter()
+                    .filter(|&(x, y, z)| bounding.contains(x, y, z))
+                    .count()
+                    == 0
+            })
+            .count();
+
+        assert_eq!(bad, 0);
     }
 }

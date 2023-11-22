@@ -14,4 +14,9 @@ members = [
     "d10-cathode-ray-tube",
     "d11-monkey-in-the-middle",
     "d12-hill-climbing-algorithm",
+
+    "d18-boiling-boulders",
+
+    "d21-monkey-math",
+
 ]

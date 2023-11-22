@@ -28,11 +28,11 @@ Stacks
 
 ### Day 6
 
-Moving windows, Bit masks.
+Moving windows, Bit masks
 
 ### Day 7
 
-A tree with back pointers.
+A tree with back pointers
 
 ### Day 8
 
@@ -40,7 +40,7 @@ A tree with back pointers.
 
 ### Day 9
 
-HashSet, signum.
+HashSet, signum
 
 ### Day 10
 
@@ -49,3 +49,15 @@ A simple interpreter
 ### Day 11
 
 Modular arithmetic
+
+### Day 12
+
+BFS, 2d arrays in 1d arrays
+
+### Day 18
+
+Voxels, flood fill
+
+### Day 21
+
+Abstract Syntax Trees, Algebra
