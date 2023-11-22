@@ -2,7 +2,7 @@ use aoc::*;
 
 enum Instruction {
     Noop(),
-    Addx(i32),
+    AddX(i32),
 }
 
 fn part1(input: &str) -> i32 {
@@ -20,7 +20,7 @@ fn part1(input: &str) -> i32 {
         } else {
             let num = parts.next().unwrap().parse::<i32>().unwrap();
             instructions.push(Instruction::Noop());
-            instructions.push(Instruction::Addx(num));
+            instructions.push(Instruction::AddX(num));
         }
     }
 
@@ -46,7 +46,7 @@ fn part1(input: &str) -> i32 {
             Instruction::Noop() => {
                 index += 1;
             }
-            Instruction::Addx(num) => {
+            Instruction::AddX(num) => {
                 acc += num;
                 index += 1;
             }
@@ -73,7 +73,7 @@ fn part2(input: &str) {
         } else {
             let num = parts.next().unwrap().parse::<i32>().unwrap();
             instructions.push(Instruction::Noop());
-            instructions.push(Instruction::Addx(num));
+            instructions.push(Instruction::AddX(num));
         }
     }
 
@@ -84,8 +84,8 @@ fn part2(input: &str) {
     loop {
         let instruction = &instructions[index % instructions.len()];
 
-        let width = cycle % 40;
-        let height = cycle / 40;
+        let width: i32 = cycle % 40;
+        let height: i32 = cycle / 40;
 
         if width == 0 {
             println!();
@@ -96,13 +96,13 @@ fn part2(input: &str) {
         }
 
         // if cycle is within 1 of acc print "#" else print "."
-        if (acc - width as i32).abs() <= 1 {
+        if (acc - width).abs() <= 1 {
             print!("#");
         } else {
             print!(" ");
         }
 
-        if let Instruction::Addx(num) = instruction {
+        if let Instruction::AddX(num) = instruction {
             acc += num;
         }
 

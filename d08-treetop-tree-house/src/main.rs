@@ -3,6 +3,8 @@ use std::time::Instant;
 use aoc::get_lines;
 use itertools::Itertools;
 
+#[allow(clippy::needless_range_loop)]
+
 fn solution(filename: &str) -> (usize, i32) {
     let mut time = Instant::now();
 
@@ -21,7 +23,7 @@ fn solution(filename: &str) -> (usize, i32) {
 
     let width = forest[0].len();
     let height = forest.len();
-    
+
     println!("Parse file {:?}", time.elapsed());
     time = Instant::now();
 
@@ -77,8 +79,8 @@ fn solution(filename: &str) -> (usize, i32) {
     for (x, y) in (1..width - 1).cartesian_product(1..height - 1) {
         // count visible trees in each direction
         let h = forest[y][x].0;
-        
-        // Count the number of trees that can be seen from the current tree 
+
+        // Count the number of trees that can be seen from the current tree
         let mut up = 0;
         for y2 in (0..y).rev() {
             if forest[y2][x].0 >= h {
@@ -115,7 +117,7 @@ fn solution(filename: &str) -> (usize, i32) {
             right += 1;
         }
 
-       // println!("({}, {}) -> ({}, {}, {}, {})", x, y, up, down, left, right);
+        // println!("({}, {}) -> ({}, {}, {}, {})", x, y, up, down, left, right);
         forest[y][x].2 = up * down * left * right;
     }
 
@@ -149,5 +151,3 @@ mod tests {
         assert_eq!(solution("example.txt"), (21, 8));
     }
 }
-
-

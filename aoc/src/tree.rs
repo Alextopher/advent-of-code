@@ -1,4 +1,4 @@
-///! This is a tree data structure with backpointers. It's a helpful construction from time to time.
+//! This is a tree data structure with backpointers. It's a helpful construction from time to time.
 use std::{
     cell::RefCell,
     rc::{Rc, Weak},
@@ -193,13 +193,13 @@ impl<T> Tree<T> {
     // TODO: iter_inorder, iter_inorder_depth
 }
 
-impl <T: std::fmt::Debug> std::fmt::Debug for Tree<T> {
+impl<T: std::fmt::Debug> std::fmt::Debug for Tree<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         self.root.display_debug(f, 0)
     }
 }
 
-impl <T: std::fmt::Display> std::fmt::Display for Tree<T> {
+impl<T: std::fmt::Display> std::fmt::Display for Tree<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         self.root.display(f, 0)
     }
@@ -210,8 +210,8 @@ impl<T> TryFrom<Node<T>> for Tree<T> {
 
     fn try_from(node: Node<T>) -> Result<Self, Self::Error> {
         // The node's parent must be None
-        if node.parent() != None {
-            return Err(());
+        if node.parent().is_some() {
+            Err(())
         } else {
             Ok(Tree { root: node })
         }
@@ -268,13 +268,13 @@ impl<T> Node<T> {
     /// Runs in O(n) time where n is the number of children.
     pub fn remove_child(&mut self, child: &Node<T>) -> Option<Node<T>> {
         let mut children = self.0.children.borrow_mut();
-        let index = children.iter().position(|c| Rc::ptr_eq(&c, &child.0))?;
+        let index = children.iter().position(|c| Rc::ptr_eq(c, &child.0))?;
 
         Some(Node(children.remove(index)))
     }
 }
 
-impl <T: std::fmt::Debug> Node<T> {
+impl<T: std::fmt::Debug> Node<T> {
     fn display_debug(&self, f: &mut std::fmt::Formatter<'_>, depth: usize) -> std::fmt::Result {
         for _ in 0..depth {
             write!(f, "  ")?;
@@ -289,7 +289,7 @@ impl <T: std::fmt::Debug> Node<T> {
     }
 }
 
-impl <T: std::fmt::Display> Node<T> {
+impl<T: std::fmt::Display> Node<T> {
     fn display(&self, f: &mut std::fmt::Formatter<'_>, depth: usize) -> std::fmt::Result {
         for _ in 0..depth {
             write!(f, "  ")?;
@@ -304,13 +304,13 @@ impl <T: std::fmt::Display> Node<T> {
     }
 }
 
-impl <T: std::fmt::Debug> std::fmt::Debug for Node<T> {
+impl<T: std::fmt::Debug> std::fmt::Debug for Node<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         self.display_debug(f, 0)
     }
 }
 
-impl <T: std::fmt::Display> std::fmt::Display for Node<T> {
+impl<T: std::fmt::Display> std::fmt::Display for Node<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         self.display(f, 0)
     }

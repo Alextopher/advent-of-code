@@ -35,7 +35,7 @@ where
 
     while start < end {
         let mid = start + (end - start) / two;
-        let cmp = f(mid).partial_cmp(&t).unwrap();
+        let cmp = f(mid).partial_cmp(t).unwrap();
 
         if cmp == Ordering::Less {
             start = mid + N::one();
@@ -46,6 +46,5 @@ where
         }
     }
 
-    return Err(start);
+    Err(start)
 }
-

@@ -53,7 +53,7 @@ fn part2(filename: &str) -> usize {
     let mut grid: HashSet<(i32, i32)> = HashSet::new();
 
     // start at 0,0
-    let mut tails = vec![(0, 0); 10];
+    let mut tails = [(0, 0); 10];
     grid.insert(tails[0]);
 
     // follow the instructions

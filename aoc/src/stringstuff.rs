@@ -1,4 +1,4 @@
-///! Helpful tools for working with ASCII strings.
+//! Helpful tools for working with ASCII strings.
 
 // Working with single characters
 // ------------------------------
@@ -34,9 +34,9 @@ impl CharExt for char {
         T: std::convert::From<u8>,
     {
         let c = *self as u8;
-        if c >= b'A' && c <= b'Z' {
+        if c.is_ascii_uppercase() {
             T::from(c - b'A')
-        } else if c >= b'a' && c <= b'z' {
+        } else if c.is_ascii_lowercase() {
             T::from(c - b'a')
         } else {
             panic!("Not a letter: {}", self);
@@ -62,11 +62,10 @@ impl CharExt for char {
         T: std::convert::From<u8>,
     {
         let c = *self as u8;
-        if c >= b'0' && c <= b'9' {
+        if c.is_ascii_digit() {
             T::from(c - b'0')
         } else {
             panic!("Not a digit: {}", self);
         }
     }
 }
-

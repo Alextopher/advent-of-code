@@ -12,7 +12,7 @@ use aoc::{get_lines, stringstuff::CharExt};
 // Peraphs this function could be better optimized? It's certianly not understandable
 fn solution(filename: &str) -> (i32, i32) {
     let strat: Vec<(i32, i32)> = get_lines(filename)
-        .map(|l| (l.chars().nth(0).unwrap(), l.chars().nth(2).unwrap()))
+        .map(|l| (l.chars().next().unwrap(), l.chars().nth(2).unwrap()))
         .map(|(a, b)| (a.letter_to_num(), b.letter_to_num::<i32>() - 23))
         .collect();
 
@@ -31,18 +31,27 @@ fn solution(filename: &str) -> (i32, i32) {
 
     let part2: i32 = strat
         .iter()
-        .map(|(a, b)| (a, match b {
-            0 => 1,
-            1 => 0,
-            2 => 2,
-            _ => panic!("bad"),
-        }))
-        .map(|(a, b)| ((a - b).rem_euclid(3) + 1 + match b {
-            0 => 3,
-            1 => 0,
-            2 => 6,
-            _ => panic!("bad"),
-        }))
+        .map(|(a, b)| {
+            (
+                a,
+                match b {
+                    0 => 1,
+                    1 => 0,
+                    2 => 2,
+                    _ => panic!("bad"),
+                },
+            )
+        })
+        .map(|(a, b)| {
+            (a - b).rem_euclid(3)
+                + 1
+                + match b {
+                    0 => 3,
+                    1 => 0,
+                    2 => 6,
+                    _ => panic!("bad"),
+                }
+        })
         .sum();
 
     (part1, part2)
