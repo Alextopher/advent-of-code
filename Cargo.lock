@@ -145,9 +145,13 @@ name = "d11"
 version = "0.1.0"
 dependencies = [
  "aoc",
- "inpt",
- "itertools",
- "petgraph",
+]
+
+[[package]]
+name = "d12"
+version = "0.1.0"
+dependencies = [
+ "aoc",
 ]
 
 [[package]]
