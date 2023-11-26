@@ -2,6 +2,6 @@
 
 ## Goals
 
-My first is to not give up, if start missing days I don't want to give up.
+My first is to not give up. If start missing days I want to continue trying.
 
-My second is work on my writing skills, I want to write an understandable explanation for each day.
+My second is work on my writing skills. Maybe creating visualizations, writing about my solutions, or just writing about my thought process.
