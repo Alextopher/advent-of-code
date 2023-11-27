@@ -1,4 +1,4 @@
-use aoc::{get_lines, stringstuff::CharExt};
+use aoc::{get_input, get_lines, stringstuff::CharExt};
 
 // A rock paper scissors game
 //
@@ -10,8 +10,8 @@ use aoc::{get_lines, stringstuff::CharExt};
 // and a loser to the previous.
 //
 // Peraphs this function could be better optimized? It's certianly not understandable
-fn solution(filename: &str) -> (i32, i32) {
-    let strat: Vec<(i32, i32)> = get_lines(filename)
+fn solution(content: &str) -> (i32, i32) {
+    let strat: Vec<(i32, i32)> = get_lines(content)
         .map(|l| (l.chars().next().unwrap(), l.chars().nth(2).unwrap()))
         .map(|(a, b)| (a.letter_to_num(), b.letter_to_num::<i32>() - 23))
         .collect();
@@ -58,7 +58,7 @@ fn solution(filename: &str) -> (i32, i32) {
 }
 
 fn main() {
-    solution("example.txt");
+    solution(get_input!(2022, 2));
 }
 
 #[cfg(test)]
@@ -67,11 +67,11 @@ mod tests {
 
     #[test]
     fn test_input() {
-        assert_eq!(solution("input.txt"), (9241, 14610));
+        assert_eq!(solution(get_input!(2022, 2)), (9241, 14610));
     }
 
     #[test]
     fn test_example() {
-        assert_eq!(solution("example.txt"), (15, 12));
+        assert_eq!(solution(include_str!("../example.txt")), (15, 12));
     }
 }

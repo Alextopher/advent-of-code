@@ -53,6 +53,8 @@ fn run_round(monkeys: &mut [Monkey], worried: Option<i64>) {
     }
 }
 
+// I didn't parse the input, I just hardcoded it because that was easier using
+// chat-gpt
 fn get_monkeys() -> Vec<Monkey> {
     vec![
         Monkey {

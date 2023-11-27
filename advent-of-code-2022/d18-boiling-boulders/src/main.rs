@@ -1,5 +1,7 @@
 use std::{collections::HashSet, ops::Range};
 
+use aoc::get_input;
+
 #[derive(Debug)]
 struct BoundingBox(Range<i32>, Range<i32>, Range<i32>);
 
@@ -171,8 +173,9 @@ fn part2(input: &str) -> usize {
 }
 
 fn main() {
-    println!("{}", part1(include_str!("../input.txt")));
-    println!("{}", part2(include_str!("../input.txt")));
+    let input = get_input!(2022, 18);
+    println!("{}", part1(input));
+    println!("{}", part2(input));
 }
 
 #[cfg(test)]
@@ -188,18 +191,18 @@ mod test {
 
     #[test]
     fn test_part1() {
-        assert_eq!(part1(include_str!("../input.txt")), 4242);
+        assert_eq!(part1(get_input!(2022, 18)), 4242);
     }
 
     #[test]
     fn test_part2() {
-        assert_eq!(part2(include_str!("../input.txt")), 2428);
+        assert_eq!(part2(get_input!(2022, 18)), 2428);
     }
 
     // Shows that all 'enclosing' voxels have at least one neighbor within the bounding box
     #[test]
     fn prove_bounding_box() {
-        let input = include_str!("../input.txt");
+        let input = get_input!(2022, 18);
         let boulder = Boulder::from(input);
         let bounding = boulder.bounding_box();
 

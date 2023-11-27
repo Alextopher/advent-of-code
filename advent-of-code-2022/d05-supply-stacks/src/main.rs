@@ -13,10 +13,10 @@ struct Input {
     to: usize,
 }
 
-fn solution(filename: &str, stacks: usize) -> (String, String) {
+fn solution(content: &str, stacks: usize) -> (String, String) {
     let mut time = Instant::now();
 
-    let mut lines = aoc::get_lines(filename).peekable();
+    let mut lines = aoc::get_lines(content).peekable();
     println!("Read input {:?}", time.elapsed());
     time = Instant::now();
 
@@ -88,7 +88,7 @@ fn solution(filename: &str, stacks: usize) -> (String, String) {
 }
 
 fn main() {
-    solution("input.txt", 9);
+    solution(aoc::get_input!(2022, 5), 9);
 }
 
 #[cfg(test)]
@@ -98,7 +98,7 @@ mod tests {
     #[test]
     fn test_input() {
         assert_eq!(
-            solution("input.txt", 9),
+            solution(aoc::get_input!(2022, 5), 9),
             ("LBLVVTVLP".to_string(), "TPFFBDRJD".to_string())
         );
     }
@@ -106,7 +106,7 @@ mod tests {
     #[test]
     fn test_example() {
         assert_eq!(
-            solution("example.txt", 3),
+            solution(include_str!("../example.txt"), 3),
             ("CMZ".to_string(), "MCD".to_string())
         );
     }

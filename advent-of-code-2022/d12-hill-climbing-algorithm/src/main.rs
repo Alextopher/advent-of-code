@@ -2,6 +2,8 @@
 
 use std::collections::VecDeque;
 
+use aoc::get_input;
+
 #[derive(Debug)]
 struct Map {
     cells: Vec<u8>,
@@ -201,7 +203,7 @@ fn part2(map: &Map, end: (usize, usize)) -> usize {
 
 fn main() {
     // Read the input file
-    let input = std::fs::read_to_string("input.txt").unwrap();
+    let input = get_input!(2022, 12);
 
     // Parse the map
     let (map, start, end) = Map::from(&input);

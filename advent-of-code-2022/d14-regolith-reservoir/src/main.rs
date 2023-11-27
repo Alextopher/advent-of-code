@@ -1,5 +1,6 @@
 use std::collections::HashSet;
 
+use aoc::get_input;
 use either::Either;
 use itertools::Itertools;
 
@@ -177,7 +178,7 @@ fn part2(mut reservoir: Reservoir) -> usize {
 }
 
 fn main() {
-    let input = include_str!("../input.txt");
+    let input = get_input!(2022, 14);
     let reservoir = Reservoir::new(input.lines().map(Path::from));
 
     println!("{}", part1(reservoir.clone()));
@@ -186,12 +187,14 @@ fn main() {
 
 #[cfg(test)]
 mod test {
+    use aoc::get_input;
+
     use crate::{Path, Reservoir};
 
     // Verify that each path is made of straight lines
     #[test]
     fn test_path() {
-        let inputs = include_str!("../input.txt");
+        let inputs = get_input!(2022, 14);
         let paths: Vec<Path> = inputs.lines().map(Path::from).collect();
 
         for path in paths {
@@ -231,7 +234,7 @@ mod test {
 
     #[test]
     fn test_part1() {
-        let inputs = include_str!("../input.txt");
+        let inputs = get_input!(2022, 14);
         let reservoir = Reservoir::new(inputs.lines().map(Path::from));
 
         assert_eq!(super::part1(reservoir), 1061);
@@ -239,7 +242,7 @@ mod test {
 
     #[test]
     fn test_part2() {
-        let inputs = include_str!("../input.txt");
+        let inputs = get_input!(2022, 14);
         let reservoir = Reservoir::new(inputs.lines().map(Path::from));
 
         assert_eq!(super::part2(reservoir), 25055);

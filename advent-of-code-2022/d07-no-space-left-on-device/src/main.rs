@@ -1,13 +1,13 @@
 use std::{cell::RefCell, time::Instant};
 
-use aoc::{Node, Tree};
+use aoc::{get_input, Node, Tree};
 use itertools::Itertools;
 
-fn solution(filename: &str) -> (usize, usize) {
+fn solution(content: &str) -> (usize, usize) {
     let mut time = Instant::now();
 
     // Don't count the time it takes to read the input into memory
-    let mut lines = aoc::get_lines(filename).peekable();
+    let mut lines = aoc::get_lines(content).peekable();
     println!("Read input {:?}", time.elapsed());
     time = Instant::now();
 
@@ -113,7 +113,7 @@ fn update_sizes(node: &mut Node<RefCell<(String, Option<usize>)>>) {
 }
 
 fn main() {
-    solution("input.txt");
+    solution(get_input!(2022, 7));
 }
 
 #[cfg(test)]
@@ -122,11 +122,11 @@ mod tests {
 
     #[test]
     fn test_example() {
-        assert_eq!(solution("example.txt"), (95437, 24933642));
+        assert_eq!(solution(include_str!("../example.txt")), (95437, 24933642));
     }
 
     #[test]
     fn test_input() {
-        assert_eq!(solution("input.txt"), (1391690, 5469168));
+        assert_eq!(solution(get_input!(2022, 7)), (1391690, 5469168));
     }
 }

@@ -1,5 +1,3 @@
-use std::fs::read_to_string;
-
 use inpt::Inpt;
 
 #[derive(Debug, Inpt, Clone, Copy)]
@@ -32,7 +30,7 @@ impl Ranges {
 }
 
 fn main() {
-    let input = inpt::inpt::<Vec<Ranges>>(&read_to_string("message.txt").unwrap()).unwrap();
+    let input = inpt::inpt::<Vec<Ranges>>(aoc::get_input!(2022, 4)).unwrap();
 
     let part1 = input.iter().filter(|r| r.part1()).count();
     println!("{}", part1);

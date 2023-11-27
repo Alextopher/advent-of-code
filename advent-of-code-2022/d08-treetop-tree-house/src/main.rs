@@ -1,14 +1,14 @@
 use std::time::Instant;
 
-use aoc::get_lines;
+use aoc::{get_input, get_lines};
 use itertools::Itertools;
 
 #[allow(clippy::needless_range_loop)]
 
-fn solution(filename: &str) -> (usize, i32) {
+fn solution(content: &str) -> (usize, i32) {
     let mut time = Instant::now();
 
-    let lines = get_lines(filename);
+    let lines = get_lines(content);
     println!("Read file {:?}", time.elapsed());
     time = Instant::now();
 
@@ -134,7 +134,7 @@ fn solution(filename: &str) -> (usize, i32) {
 }
 
 fn main() {
-    solution("input.txt");
+    solution(get_input!(2022, 8));
 }
 
 #[cfg(test)]
@@ -143,11 +143,11 @@ mod tests {
 
     #[test]
     fn test_input() {
-        assert_eq!(solution("input.txt"), (1690, 535680));
+        assert_eq!(solution(get_input!(2022, 8)), (1690, 535680));
     }
 
     #[test]
     fn test_example() {
-        assert_eq!(solution("example.txt"), (21, 8));
+        assert_eq!(solution(include_str!("../example.txt")), (21, 8));
     }
 }

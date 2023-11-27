@@ -2,8 +2,8 @@ use aoc::{get_lines, iterstuff::IterJunk};
 use itertools::Itertools;
 use std::time::Instant;
 
-fn solution(filename: &str) -> (i32, i32) {
-    let lines = get_lines(filename);
+fn solution(content: &str) -> (i32, i32) {
+    let lines = get_lines(content);
 
     let time = Instant::now();
 
@@ -26,7 +26,7 @@ fn solution(filename: &str) -> (i32, i32) {
 }
 
 fn main() {
-    solution("input.txt");
+    solution(aoc::get_input!(2022, 1));
 }
 
 #[cfg(test)]
@@ -35,11 +35,11 @@ mod tests {
 
     #[test]
     fn test_input() {
-        assert_eq!(solution("input.txt"), (69289, 205615));
+        assert_eq!(solution(aoc::get_input!(2022, 1)), (69289, 205615));
     }
 
     #[test]
     fn test_example() {
-        assert_eq!(solution("example.txt"), (24000, 45000));
+        assert_eq!(solution(include_str!("../example.txt")), (24000, 45000));
     }
 }

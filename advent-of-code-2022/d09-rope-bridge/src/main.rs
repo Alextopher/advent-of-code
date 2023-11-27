@@ -1,8 +1,8 @@
-use aoc::{get_lines, GetMany};
+use aoc::{get_input, get_lines, GetMany};
 use itertools::Itertools;
 use std::collections::HashSet;
 
-fn part1(filename: &str) -> usize {
+fn part1(content: &str) -> usize {
     // okay I need a 2d array backed by HashMap
     let mut grid: HashSet<(i32, i32)> = HashSet::new();
 
@@ -13,7 +13,7 @@ fn part1(filename: &str) -> usize {
     grid.insert((0, 0));
 
     // follow the instructions
-    for line in get_lines(filename) {
+    for line in get_lines(content) {
         let mut chars = line.chars();
         let dir = chars.next().unwrap();
         chars.next(); // skip comma
@@ -101,8 +101,8 @@ fn part2(filename: &str) -> usize {
 }
 
 fn main() {
-    println!("{}", part1("input.txt"));
-    println!("{}", part2("input.txt"));
+    println!("{}", part1(get_input!(2022, 9)));
+    println!("{}", part2(get_input!(2022, 9)));
 }
 
 #[cfg(test)]
@@ -111,13 +111,13 @@ mod tests {
 
     #[test]
     fn test_input() {
-        assert_eq!(part1("input.txt"), 6037);
-        assert_eq!(part2("input.txt"), 2485);
+        assert_eq!(part1(get_input!(2022, 9)), 6037);
+        assert_eq!(part2(get_input!(2022, 9)), 2485);
     }
 
     #[test]
     fn test_example() {
-        assert_eq!(part1("example_1.txt"), 13);
-        assert_eq!(part2("example_2.txt"), 36);
+        assert_eq!(part1(include_str!("../example_1.txt")), 13);
+        assert_eq!(part2(include_str!("../example_2.txt")), 36);
     }
 }

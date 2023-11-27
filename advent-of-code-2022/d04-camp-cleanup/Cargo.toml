@@ -1,5 +1,5 @@
 [package]
-name = "d04"
+name = "d04-camp-cleanup"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 inpt = "0.1.1"
+aoc = { path = "../../aoc" }

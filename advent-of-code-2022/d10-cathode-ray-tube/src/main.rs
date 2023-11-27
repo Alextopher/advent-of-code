@@ -112,10 +112,9 @@ fn part2(input: &str) {
 }
 
 fn main() {
-    println!("{}", part1("input.txt"));
-
-    part2("example.txt");
-    part2("input.txt");
+    let input = get_input!(2022, 10);
+    println!("{}", part1(input));
+    part2(input);
 }
 
 #[cfg(test)]
@@ -123,8 +122,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_input() {
-        assert_eq!(part1("example.txt"), 13140);
-        assert_eq!(part1("input.txt"), 14360);
+    fn test_part1() {
+        assert_eq!(part1(include_str!("../example.txt")), 13140);
+        assert_eq!(part1(get_input!(2022, 10)), 14360);
     }
 }

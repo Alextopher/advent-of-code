@@ -1,5 +1,5 @@
 [package]
-name = "d03"
+name = "d03-rucksack-reorganization"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 itertools = "0.10.5"
-aoc = { path = "../aoc" }
+aoc = { path = "../../aoc" }
