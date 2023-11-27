@@ -41,8 +41,14 @@ pub fn get_input(input: TokenStream) -> TokenStream {
     let input_file = std::path::Path::new(&input_file);
 
     if !input_file.exists() {
-        // Step 3: include the cookie file
-        let cookie = include_str!("../../inputs/cookie.txt");
+        // Step 3: get the session from the cookie file, or from an environment variable
+        let mut cookie = std::env::var("AOC_COOKIE").ok();
+
+        if cookie.is_none() {
+            cookie = std::fs::read_to_string("inputs/cookie.txt").ok();
+        }
+
+        let cookie = cookie.expect("Failed to get cookie");
 
         // Step 4: download the input file
         let client = reqwest::blocking::Client::new();
