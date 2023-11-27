@@ -1,6 +1,6 @@
 use std::{cell::RefCell, time::Instant};
 
-use aoc::{get_input, Node, Tree};
+use aoc::{input_str, Node, Tree};
 use itertools::Itertools;
 
 fn solution(content: &str) -> (usize, usize) {
@@ -113,7 +113,7 @@ fn update_sizes(node: &mut Node<RefCell<(String, Option<usize>)>>) {
 }
 
 fn main() {
-    solution(get_input!(2022, 7));
+    solution(input_str!(2022, 7));
 }
 
 #[cfg(test)]
@@ -127,6 +127,6 @@ mod tests {
 
     #[test]
     fn test_input() {
-        assert_eq!(solution(get_input!(2022, 7)), (1391690, 5469168));
+        assert_eq!(solution(input_str!(2022, 7)), (1391690, 5469168));
     }
 }

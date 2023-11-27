@@ -2,7 +2,7 @@
 
 use std::collections::VecDeque;
 
-use aoc::get_input;
+use aoc::input_str;
 
 #[derive(Debug)]
 struct Map {
@@ -203,7 +203,7 @@ fn part2(map: &Map, end: (usize, usize)) -> usize {
 
 fn main() {
     // Read the input file
-    let input = get_input!(2022, 12);
+    let input = input_str!(2022, 12);
 
     // Parse the map
     let (map, start, end) = Map::from(&input);

@@ -5,7 +5,7 @@ pub mod stringstuff;
 pub mod tree;
 pub mod unionfind;
 
-pub use aoc_macro::get_input;
+pub use aoc_macro::input_str;
 pub use get_mut::GetMany;
 pub use iterstuff::IterJunk;
 pub use tree::{Node, Tree};
@@ -23,11 +23,11 @@ pub fn get_lines(content: &str) -> impl Iterator<Item = String> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use aoc_macro::input_str;
 
     #[test]
     fn test_get_input() {
-        let input: &str = get_input!(2020, 1);
+        let input: &str = input_str!(2020, 1);
         assert!(input.len() > 0);
     }
 }

@@ -31,7 +31,7 @@ impl Parse for InputArgs {
 }
 
 #[proc_macro]
-pub fn get_input(input: TokenStream) -> TokenStream {
+pub fn input_str(input: TokenStream) -> TokenStream {
     // Step 1: parse the input using the syn crate
     let args = syn::parse_macro_input!(input as InputArgs);
 

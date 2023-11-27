@@ -1,4 +1,4 @@
-use aoc::{get_input, get_lines, GetMany};
+use aoc::{get_lines, input_str, GetMany};
 use itertools::Itertools;
 use std::collections::HashSet;
 
@@ -101,8 +101,8 @@ fn part2(filename: &str) -> usize {
 }
 
 fn main() {
-    println!("{}", part1(get_input!(2022, 9)));
-    println!("{}", part2(get_input!(2022, 9)));
+    println!("{}", part1(input_str!(2022, 9)));
+    println!("{}", part2(input_str!(2022, 9)));
 }
 
 #[cfg(test)]
@@ -111,8 +111,8 @@ mod tests {
 
     #[test]
     fn test_input() {
-        assert_eq!(part1(get_input!(2022, 9)), 6037);
-        assert_eq!(part2(get_input!(2022, 9)), 2485);
+        assert_eq!(part1(input_str!(2022, 9)), 6037);
+        assert_eq!(part2(input_str!(2022, 9)), 2485);
     }
 
     #[test]

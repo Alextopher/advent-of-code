@@ -26,7 +26,7 @@ fn solution(content: &str) -> (i32, i32) {
 }
 
 fn main() {
-    solution(aoc::get_input!(2022, 1));
+    solution(aoc::input_str!(2022, 1));
 }
 
 #[cfg(test)]
@@ -35,7 +35,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        assert_eq!(solution(aoc::get_input!(2022, 1)), (69289, 205615));
+        assert_eq!(solution(aoc::input_str!(2022, 1)), (69289, 205615));
     }
 
     #[test]

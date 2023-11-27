@@ -47,7 +47,7 @@ fn lowercase_all_unique<T: Iterator<Item = u8>>(iter: T) -> bool {
 }
 
 fn main() {
-    solution(get_lines(get_input!(2022, 6)).next().unwrap().as_str());
+    solution(get_lines(input_str!(2022, 6)).next().unwrap().as_str());
 }
 
 #[cfg(test)]
@@ -57,7 +57,7 @@ mod tests {
     #[test]
     fn test_input() {
         assert_eq!(
-            solution(get_lines(get_input!(2022, 6)).next().unwrap().as_str()),
+            solution(get_lines(input_str!(2022, 6)).next().unwrap().as_str()),
             (1198, 3120)
         );
     }

@@ -112,7 +112,7 @@ fn part2(input: &str) {
 }
 
 fn main() {
-    let input = get_input!(2022, 10);
+    let input = input_str!(2022, 10);
     println!("{}", part1(input));
     part2(input);
 }
@@ -124,6 +124,6 @@ mod tests {
     #[test]
     fn test_part1() {
         assert_eq!(part1(include_str!("../example.txt")), 13140);
-        assert_eq!(part1(get_input!(2022, 10)), 14360);
+        assert_eq!(part1(input_str!(2022, 10)), 14360);
     }
 }

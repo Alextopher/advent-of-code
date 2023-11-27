@@ -1,6 +1,6 @@
 use std::time::Instant;
 
-use aoc::{get_input, get_lines};
+use aoc::{get_lines, input_str};
 use itertools::Itertools;
 
 #[allow(clippy::needless_range_loop)]
@@ -134,7 +134,7 @@ fn solution(content: &str) -> (usize, i32) {
 }
 
 fn main() {
-    solution(get_input!(2022, 8));
+    solution(input_str!(2022, 8));
 }
 
 #[cfg(test)]
@@ -143,7 +143,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        assert_eq!(solution(get_input!(2022, 8)), (1690, 535680));
+        assert_eq!(solution(input_str!(2022, 8)), (1690, 535680));
     }
 
     #[test]

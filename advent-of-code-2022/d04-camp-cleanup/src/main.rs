@@ -30,7 +30,7 @@ impl Ranges {
 }
 
 fn main() {
-    let input = inpt::inpt::<Vec<Ranges>>(aoc::get_input!(2022, 4)).unwrap();
+    let input = inpt::inpt::<Vec<Ranges>>(aoc::input_str!(2022, 4)).unwrap();
 
     let part1 = input.iter().filter(|r| r.part1()).count();
     println!("{}", part1);

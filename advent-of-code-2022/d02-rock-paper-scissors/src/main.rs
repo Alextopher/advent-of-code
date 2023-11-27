@@ -1,4 +1,4 @@
-use aoc::{get_input, get_lines, stringstuff::CharExt};
+use aoc::{get_lines, input_str, stringstuff::CharExt};
 
 // A rock paper scissors game
 //
@@ -58,7 +58,7 @@ fn solution(content: &str) -> (i32, i32) {
 }
 
 fn main() {
-    solution(get_input!(2022, 2));
+    solution(input_str!(2022, 2));
 }
 
 #[cfg(test)]
@@ -67,7 +67,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        assert_eq!(solution(get_input!(2022, 2)), (9241, 14610));
+        assert_eq!(solution(input_str!(2022, 2)), (9241, 14610));
     }
 
     #[test]

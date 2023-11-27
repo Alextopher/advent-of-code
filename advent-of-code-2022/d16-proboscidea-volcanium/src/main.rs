@@ -200,7 +200,7 @@ fn part1(input: &str) -> usize {
 }
 
 fn main() {
-    let input = aoc::get_input!(2022, 16);
+    let input = aoc::input_str!(2022, 16);
     println!("Part 1: {}", part1(input));
 }
 

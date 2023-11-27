@@ -1,6 +1,6 @@
 use std::{collections::HashMap, io::Write};
 
-use aoc::get_input;
+use aoc::input_str;
 
 #[derive(Debug, Clone)]
 enum Monkey {
@@ -319,7 +319,7 @@ fn part2(input: &str) -> i64 {
 }
 
 fn main() {
-    let input = get_input!(2022, 21);
+    let input = input_str!(2022, 21);
     println!("{}", part1(input));
     println!("{}", part2(input));
 }
@@ -338,13 +338,13 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        let input = get_input!(2022, 21);
+        let input = input_str!(2022, 21);
         assert_eq!(part1(&input), 152479825094094);
     }
 
     #[test]
     fn test_part2() {
-        let input = get_input!(2022, 21);
+        let input = input_str!(2022, 21);
         assert_eq!(part2(&input), 3360561285172);
     }
 }

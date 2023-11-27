@@ -88,7 +88,7 @@ fn solution(content: &str, stacks: usize) -> (String, String) {
 }
 
 fn main() {
-    solution(aoc::get_input!(2022, 5), 9);
+    solution(aoc::input_str!(2022, 5), 9);
 }
 
 #[cfg(test)]
@@ -98,7 +98,7 @@ mod tests {
     #[test]
     fn test_input() {
         assert_eq!(
-            solution(aoc::get_input!(2022, 5), 9),
+            solution(aoc::input_str!(2022, 5), 9),
             ("LBLVVTVLP".to_string(), "TPFFBDRJD".to_string())
         );
     }

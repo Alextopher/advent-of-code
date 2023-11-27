@@ -1,6 +1,6 @@
 use std::ops::BitAnd;
 
-use aoc::{get_input, get_lines};
+use aoc::{get_lines, input_str};
 use itertools::Itertools;
 
 fn get_mask(s: &str) -> u64 {
@@ -39,7 +39,7 @@ fn solution(filename: &str) -> (u32, u32) {
 }
 
 fn main() {
-    solution(get_input!(2022, 3));
+    solution(input_str!(2022, 3));
 }
 
 #[cfg(test)]
@@ -48,7 +48,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        assert_eq!(solution(get_input!(2022, 3)), (7691, 2508));
+        assert_eq!(solution(input_str!(2022, 3)), (7691, 2508));
     }
 
     #[test]
