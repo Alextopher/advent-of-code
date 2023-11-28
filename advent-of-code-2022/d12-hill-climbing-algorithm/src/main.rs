@@ -206,7 +206,7 @@ fn main() {
     let input = input_str!(2022, 12);
 
     // Parse the map
-    let (map, start, end) = Map::from(&input);
+    let (map, start, end) = Map::from(input);
 
     // Part 1
     println!("Part 1: {}", part1(&map, start, end));

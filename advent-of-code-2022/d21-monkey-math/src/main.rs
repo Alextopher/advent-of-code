@@ -339,12 +339,12 @@ mod tests {
     #[test]
     fn test_part1() {
         let input = input_str!(2022, 21);
-        assert_eq!(part1(&input), 152479825094094);
+        assert_eq!(part1(input), 152479825094094);
     }
 
     #[test]
     fn test_part2() {
         let input = input_str!(2022, 21);
-        assert_eq!(part2(&input), 3360561285172);
+        assert_eq!(part2(input), 3360561285172);
     }
 }

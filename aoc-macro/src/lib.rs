@@ -58,7 +58,7 @@ pub fn input_str(input: TokenStream) -> TokenStream {
         );
 
         let resp = client
-            .get(&url)
+            .get(url)
             .header("Cookie", cookie)
             .send()
             .expect("Failed to send request");

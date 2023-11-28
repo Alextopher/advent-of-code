@@ -28,6 +28,6 @@ mod tests {
     #[test]
     fn test_get_input() {
         let input: &str = input_str!(2020, 1);
-        assert!(input.len() > 0);
+        assert!(!input.is_empty());
     }
 }
