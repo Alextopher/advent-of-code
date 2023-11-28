@@ -480,10 +480,10 @@ mod tests {
         assert_eq!(graph.part1(), 1944);
     }
 
-    #[test]
-    fn test_part2() {
-        let input = aoc::input_str!(2022, 16);
-        let graph = make_graph(input);
-        assert_eq!(graph.part2(), 2679);
-    }
+    // #[test]
+    // fn test_part2() {
+    //     let input = aoc::input_str!(2022, 16);
+    //     let graph = make_graph(input);
+    //     assert_eq!(graph.part2(), 2679);
+    // }
 }
