@@ -156,15 +156,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e496a50fda8aacccc86d7529e2c1e0892dbd0f898a6b5645b5561b89c3210efa"
 
 [[package]]
-name = "d01"
-version = "0.1.0"
-
-[[package]]
 name = "d01-calorie-counting"
 version = "0.1.0"
 dependencies = [
  "aoc",
  "itertools 0.10.5",
+]
+
+[[package]]
+name = "d01-trebuchet"
+version = "0.1.0"
+dependencies = [
+ "aoc",
 ]
 
 [[package]]
@@ -309,6 +312,13 @@ name = "d13"
 version = "0.1.0"
 
 [[package]]
+name = "d13-distress-signal"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+]
+
+[[package]]
 name = "d14"
 version = "0.1.0"
 
@@ -340,6 +350,13 @@ dependencies = [
 [[package]]
 name = "d17"
 version = "0.1.0"
+
+[[package]]
+name = "d17-pyroclastic-flow"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+]
 
 [[package]]
 name = "d18"
@@ -1610,15 +1627,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "y22d13"
-version = "0.1.0"
-
-[[package]]
 name = "y22d15"
-version = "0.1.0"
-
-[[package]]
-name = "y22d17"
 version = "0.1.0"
 
 [[package]]

@@ -54,6 +54,22 @@ Modular arithmetic
 
 BFS, 2d arrays in 1d arrays
 
+## Day 13
+
+Parsing lists, `Ord`
+
+### Day 14
+
+Sand Simulation
+
+### Day 16
+
+Traveling Salesman Problem (pain)
+
+### Day 17
+
+Tetris
+
 ### Day 18
 
 Voxels, flood fill
@@ -61,3 +77,4 @@ Voxels, flood fill
 ### Day 21
 
 Abstract Syntax Trees, Algebra
+xx
