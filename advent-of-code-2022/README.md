@@ -54,7 +54,7 @@ Modular arithmetic
 
 BFS, 2d arrays in 1d arrays
 
-## Day 13
+### Day 13
 
 Parsing lists, `Ord`
 
