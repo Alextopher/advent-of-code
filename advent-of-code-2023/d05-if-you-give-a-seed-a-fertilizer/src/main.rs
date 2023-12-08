@@ -1,3 +1,4 @@
+use rayon::prelude::*;
 use std::ops::Range;
 
 use aoc::input_str;
@@ -146,6 +147,14 @@ impl Almanac {
 
         ranges
     }
+
+    fn part2_brute(&self, range: Range<u64>) -> u64 {
+        range
+            .into_par_iter()
+            .map(|value| self.part1(value))
+            .min()
+            .unwrap()
+    }
 }
 
 fn parse_map<'a>(mut lines: impl Iterator<Item = &'a str>) -> Map {
@@ -209,12 +218,33 @@ fn part2(almanac: &Almanac) -> u64 {
     ranges.map(|range| range.start).min().unwrap()
 }
 
+fn part2_brute(almanac: &Almanac) -> u64 {
+    let ranges = almanac
+        .seeds
+        .chunks(2)
+        .map(|chunk| chunk[0]..(chunk[0] + chunk[1]));
+
+    ranges
+        .map(|range| almanac.part2_brute(range))
+        .min()
+        .unwrap()
+}
+
 fn main() {
     let input = input_str!(2023, 5);
+
+    let time = std::time::Instant::now();
     let almanac = parse_almanac(input);
 
     println!("Part 1: {}", part1(&almanac));
     println!("Part 2: {}", part2(&almanac));
+
+    println!("Time: {:?}", time.elapsed());
+
+    // Time part 2 with the stupid implementation
+    let time = std::time::Instant::now();
+    println!("Part 2 (stupid): {}", part2_brute(&almanac));
+    println!("Time: {:?}", time.elapsed());
 }
 
 #[cfg(test)]
@@ -235,5 +265,14 @@ mod test {
         assert_eq!(almanac.part1(13), 35);
 
         assert_eq!(part2(&almanac), 46);
+    }
+
+    #[test]
+    fn verify_output() {
+        let input = input_str!(2023, 5);
+        let almanac = parse_almanac(input);
+
+        assert_eq!(part1(&almanac), 313045984);
+        assert_eq!(part2(&almanac), 20283860);
     }
 }
