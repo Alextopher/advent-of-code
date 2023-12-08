@@ -22,13 +22,23 @@ Iterators
 
 ### [Day 4](day4/README.md)
 
+Novel algorithm
+
 ### [Day 5](day5/README.md)
+
+Ranges, Maps
 
 ### [Day 6](day6/README.md)
 
+Quadratic Formula
+
 ### [Day 7](day7/README.md)
 
+Decisions Trees
+
 ### [Day 8](day8/README.md)
+
+Graph, LCM
 
 ### [Day 9](day9/README.md)
 
