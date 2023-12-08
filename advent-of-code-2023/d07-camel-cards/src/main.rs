@@ -20,6 +20,12 @@ fn main() {
     let time = std::time::Instant::now();
     println!("Part 1: {}", part1::part1(input));
     println!("Time: {:?}", time.elapsed());
+
+    println!();
+
+    let time = std::time::Instant::now();
+    println!("Part 2: {}", part2::part2(input));
+    println!("Time: {:?}", time.elapsed());
 }
 
 #[cfg(test)]
@@ -36,5 +42,6 @@ mod test {
     fn verify() {
         let input = input_str!(2023, 7);
         assert_eq!(part1::part1(input), 251927063);
+        assert_eq!(part2::part2(input), 255632664);
     }
 }

@@ -1,8 +1,6 @@
 use crate::HandType;
 
 //  A, K, Q, T, 9, 8, 7, 6, 5, 4, 3, 2, J
-const JOKER: u8 = 0;
-
 fn rank(c: u8) -> u8 {
     match c {
         b'J' => 0,
@@ -15,13 +13,145 @@ fn rank(c: u8) -> u8 {
     }
 }
 
-// Ignores the jokers
+fn one_joker(cards: [u8; 4]) -> HandType {
+    let zero = cards[0];
+    // J0
+    if cards[1] == zero {
+        // J00
+        if cards[2] == zero {
+            // J000
+            if cards[3] == zero {
+                // J0000
+                HandType::FiveOfAKind
+            } else {
+                // J0001
+                HandType::FourOfAKind
+            }
+        } else {
+            // J001
+            let one = cards[2];
+            if cards[3] == zero {
+                // J0010
+                HandType::FourOfAKind
+            } else if cards[3] == one {
+                // J0011
+                HandType::FullHouse
+            } else {
+                // J0012
+                HandType::ThreeOfAKind
+            }
+        }
+    } else {
+        // J01
+        let one = cards[1];
+        if cards[2] == zero {
+            // J010
+            if cards[3] == zero {
+                // J0100
+                HandType::FourOfAKind
+            } else if cards[3] == one {
+                // J0101
+                HandType::FullHouse
+            } else {
+                // J0102
+                HandType::ThreeOfAKind
+            }
+        } else if cards[2] == one {
+            // J011
+            if cards[3] == zero {
+                // J0110
+                HandType::FullHouse
+            } else if cards[3] == one {
+                // J0111
+                HandType::FourOfAKind
+            } else {
+                // J0112
+                HandType::ThreeOfAKind
+            }
+        } else {
+            // J012
+            let two = cards[2];
+            if cards[3] == zero || cards[3] == one || cards[3] == two {
+                // J0120 | J0121 | J0122
+                HandType::ThreeOfAKind
+            } else {
+                // J0123
+                HandType::OnePair
+            }
+        }
+    }
+}
+
+fn two_jokers(cards: [u8; 3]) -> HandType {
+    let zero = cards[0];
+
+    // JJ0
+    if cards[1] == zero {
+        // JJ00
+        if cards[2] == zero {
+            // JJ000
+            HandType::FiveOfAKind
+        } else {
+            // JJ001
+            HandType::FourOfAKind
+        }
+    } else {
+        // JJ01
+        let one = cards[1];
+        if cards[2] == zero || cards[2] == one {
+            // JJ010 | JJ011
+            HandType::FourOfAKind
+        } else {
+            // JJ012
+            HandType::ThreeOfAKind
+        }
+    }
+}
+
+fn three_jokers(a: u8, b: u8) -> HandType {
+    if a == b {
+        // JJJ00
+        HandType::FiveOfAKind
+    } else {
+        // JJJ01
+        HandType::FourOfAKind
+    }
+}
+
 fn decision_tree(cards: &[u8]) -> HandType {
-    // Builds a 4 level decision tree that is capable of determining the hand type
-    // by making a single pass through the cards hands
     debug_assert_eq!(cards.len(), 5);
 
-    todo!()
+    // Count the number of Jokers
+    let jokers = cards.iter().filter(|&&c| c == b'J').count();
+    if jokers == 5 || jokers == 4 {
+        HandType::FiveOfAKind
+    } else if jokers == 3 {
+        // get a, b
+        let mut iter = cards.iter().filter(|&&c| c != b'J');
+        let a = *iter.next().unwrap();
+        let b = *iter.next().unwrap();
+
+        three_jokers(a, b)
+    } else if jokers == 2 {
+        // get a, b, c
+        let mut iter = cards.iter().filter(|&&c| c != b'J');
+        let a = *iter.next().unwrap();
+        let b = *iter.next().unwrap();
+        let c = *iter.next().unwrap();
+        two_jokers([a, b, c])
+    } else if jokers == 1 {
+        // get a, b, c, d
+        let mut iter = cards.iter().filter(|&&c| c != b'J');
+        let a = *iter.next().unwrap();
+        let b = *iter.next().unwrap();
+        let c = *iter.next().unwrap();
+        let d = *iter.next().unwrap();
+        one_joker([a, b, c, d])
+    } else if jokers == 0 {
+        crate::part1::decision_tree(cards)
+    } else {
+        unreachable!()
+    }
 }
 
 fn base13(cards: &str) -> u32 {

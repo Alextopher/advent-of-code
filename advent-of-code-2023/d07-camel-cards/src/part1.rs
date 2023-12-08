@@ -14,7 +14,7 @@ fn rank(c: u8) -> u8 {
 }
 
 // Ignores the jokers
-fn decision_tree(cards: &[u8]) -> HandType {
+pub fn decision_tree(cards: &[u8]) -> HandType {
     // Builds a 4 level decision tree that is capable of determining the hand type
     // by making a single pass through the cards hands
     debug_assert_eq!(cards.len(), 5);
