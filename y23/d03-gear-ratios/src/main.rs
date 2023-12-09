@@ -163,7 +163,7 @@ impl Grid {
         adjacent
     }
 
-    // Returns an iterator over all the numbers in the grid joins neighbouring digits together
+    // Returns an iterator over all the numbers in the grid joins neighboring digits together
     fn numbers(&self) -> Vec<(Range<usize>, u32)> {
         self.cells
             .iter()

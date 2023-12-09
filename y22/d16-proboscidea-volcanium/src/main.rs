@@ -97,7 +97,8 @@ fn to_graph(
     Graph::new(rates, matrix)
 }
 
-use std::simd::{u8x16, SimdPartialEq};
+use std::simd::cmp::SimdPartialEq;
+use std::simd::u8x16;
 
 // The graph only has at most 16 nodes, which I can represent as 4 bits per node
 // Since a path is at most 16 nodes long, I can represent it as a (16*4) 64 bit integer

@@ -189,18 +189,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "d07"
-version = "0.1.0"
-dependencies = [
- "aoc",
- "rayon",
-]
-
-[[package]]
-name = "d09"
-version = "0.1.0"
-
-[[package]]
 name = "d10"
 version = "0.1.0"
 
@@ -1872,9 +1860,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "y23d07"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "rayon",
+]
+
+[[package]]
 name = "y23d08"
 version = "0.1.0"
 dependencies = [
  "aoc",
  "num",
+]
+
+[[package]]
+name = "y23d09"
+version = "0.1.0"
+dependencies = [
+ "aoc",
 ]
