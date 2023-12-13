@@ -1,10 +1,8 @@
 # Advent of Code 2023
 
-## Goals
+## Goal
 
-My first is to not give up. If start missing days I want to continue trying.
-
-My second is work on my writing skills. Maybe creating visualizations, writing about my solutions, or just writing about my thought process.
+Do not give up: If start missing days I want to continue making some kind of progress.
 
 ## Tags
 
@@ -42,13 +40,23 @@ Graph, LCM
 
 ### [Day 9](day9/README.md)
 
+Finite Differences, Recursion
+
 ### [Day 10](day10/README.md)
+
+Graph Cycle, Shoelace Theorem
 
 ### [Day 11](day11/README.md)
 
+x, y independence
+
 ### [Day 12](day12/README.md)
 
+Dynamic Programming
+
 ### [Day 13](day13/README.md)
+
+Reflections
 
 ### [Day 14](day14/README.md)
 
