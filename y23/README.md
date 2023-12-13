@@ -6,57 +6,72 @@ Do not give up: If start missing days I want to continue making some kind of pro
 
 ## Tags
 
-### [Day 1](day1/README.md)
+<!-- drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d01-trebuchet
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d02-cube-conundrum
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d03-gear-ratios
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d04-scratchcards
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d05-if-you-give-a-seed-a-fertilizer
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d06-wait-for-it
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d07-camel-cards
+drwxrwxr-x 1 mahonec mahonec   26 Dec 10 07:05 d08-brute-forced
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d08-haunted-wasteland
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d09-mirage-maintenance
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d10-pipe-maze
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d11-cosmic-expansion
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d12-hot-springs
+drwxr-xr-x 1 mahonec mahonec   26 Dec 13 14:02 d13-point-of-incidence -->
+
+### Day 1 - Trebuchet
 
 Overlapping matches
 
-### [Day 2](day2/README.md)
+### Day 2 - Cube Conundrum
 
 Iterators
 
-### [Day 3](day3/README.md)
+### Day 3 - Gear Ratios
 
 2D Arrays
 
-### [Day 4](day4/README.md)
+### Day 4 - Scratchcards
 
-Novel algorithm
+A novel algorithm
 
-### [Day 5](day5/README.md)
+### Day 5 - If You Give a Seed a Fertilizer
 
 Ranges, Maps
 
-### [Day 6](day6/README.md)
+### Day 6 - Wait For It
 
 Quadratic Formula
 
-### [Day 7](day7/README.md)
+### Day 7 - Camel Cards
 
 Decisions Trees
 
-### [Day 8](day8/README.md)
+### Day 8 - Haunted Wasteland
 
 Graph, LCM
 
-### [Day 9](day9/README.md)
+### Day 9 - Mirage Maintenance
 
-Finite Differences, Recursion
+Polynomial Finite Differences, Recursion
 
-### [Day 10](day10/README.md)
+### Day 10 - Pipe Maze
 
 Graph Cycle, Shoelace Theorem
 
-### [Day 11](day11/README.md)
+### Day 11 - Cosmic Expansion
 
-x, y independence
+A very sparse matrix
 
-### [Day 12](day12/README.md)
+### Day 12 - Hot Springs
 
 Dynamic Programming
 
-### [Day 13](day13/README.md)
+### Day 13 - Point of Incidence
 
-Reflections
+2D Reflections
 
 ### [Day 14](day14/README.md)
 
