@@ -167,4 +167,31 @@ pub trait IterJunk: Iterator {
     {
         self.k_largest_by(k, |a, b| f(a).cmp(&f(b)))
     }
+
+    /// `partial_sums` is a function that returns an iterator over the partial sums of the iterator.
+    ///
+    /// The first element is the first element of the iterator, the second element is the sum of the
+    /// first two elements, and so on.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use aoc::iterstuff::IterJunk;
+    ///
+    /// let v = vec![1, 2, 3, 4, 5];
+    /// let sums: Vec<i32> = v.into_iter().partial_sums().collect();
+    ///
+    /// assert_eq!(sums, vec![1, 3, 6, 10, 15]);
+    /// ```
+    #[must_use = "iterators are lazy and do nothing unless consumed"]
+    fn partial_sums(self) -> impl Iterator<Item = <Self as Iterator>::Item>
+    where
+        Self: Sized,
+        Self::Item: std::ops::AddAssign + Copy + Default,
+    {
+        self.scan(Default::default(), |sum, x| {
+            *sum += x;
+            Some(*sum)
+        })
+    }
 }
