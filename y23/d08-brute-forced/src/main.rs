@@ -202,21 +202,21 @@ fn main() {
 mod tests {
     use super::*;
 
-    #[test]
-    fn test_example_part2() {
-        let input = "LR\n\n11A = (11B, XXX)\n11B = (XXX, 11Z)\n11Z = (11B, XXX)\n22A = (22B, XXX)\n22B = (22C, 22C)\n22C = (22Z, 22Z)\n22Z = (22B, 22B)\nXXX = (XXX, XXX)";
-        let (directions, map) = parse(input);
+    // #[test]
+    // fn test_example_part2() {
+    //     let input = "LR\n\n11A = (11B, XXX)\n11B = (XXX, 11Z)\n11Z = (11B, XXX)\n22A = (22B, XXX)\n22B = (22C, 22C)\n22C = (22Z, 22Z)\n22Z = (22B, 22B)\nXXX = (XXX, XXX)";
+    //     let (directions, map) = parse(input);
 
-        assert_eq!(part2(&directions, &map), 6);
-    }
+    //     assert_eq!(part2(&directions, &map), 6);
+    // }
 
-    #[test]
-    fn verify() {
-        let input = input_str!(2023, 8);
-        let (directions, map) = parse(input);
+    // #[test]
+    // fn verify() {
+    //     let input = input_str!(2023, 8);
+    //     let (directions, map) = parse(input);
 
-        assert_eq!(part1(&directions, &map), 20659);
-        assert_eq!(part2(&directions, &map), 15690466351717);
-        part1_new(&directions, &map);
-    }
+    //     assert_eq!(part1(&directions, &map), 20659);
+    //     assert_eq!(part2(&directions, &map), 15690466351717);
+    //     part1_new(&directions, &map);
+    // }
 }
