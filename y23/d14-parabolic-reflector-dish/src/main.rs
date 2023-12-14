@@ -1,8 +1,11 @@
+use std::hash::{DefaultHasher, Hasher};
+
 use aoc::input_str;
 use itertools::Itertools;
 use nohash_hasher::IntMap;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[repr(u8)]
 enum Space {
     Empty,
     Square,
@@ -116,10 +119,12 @@ impl Reflector {
             for (index, space) in self.get_col(x).enumerate().rev() {
                 if space.is_round() {
                     buffer[next_location] = Space::Round;
-                    next_location -= 1;
+                    // Known integer underflow at index 0. However, this is fine
+                    // because we're not going to use the value anyway.
+                    next_location = next_location.wrapping_sub(1);
                 } else if space.is_square() {
                     buffer[index] = Space::Square;
-                    next_location = index - 1;
+                    next_location = index.wrapping_sub(1);
                 }
             }
 
@@ -156,10 +161,12 @@ impl Reflector {
             for (index, space) in self.get_row(y).iter().enumerate().rev() {
                 if space.is_round() {
                     buffer[next_location] = Space::Round;
-                    next_location -= 1;
+                    // Known integer underflow at index 0. However, this is fine
+                    // because we're not going to use the value anyway.
+                    next_location = next_location.wrapping_sub(1);
                 } else if space.is_square() {
                     buffer[index] = Space::Square;
-                    next_location = index - 1;
+                    next_location = index.wrapping_sub(1);
                 }
             }
 
@@ -182,21 +189,15 @@ impl Reflector {
             .sum()
     }
 
-    /// Calculates the amount of load on the east beam
-    fn east_load(&self) -> usize {
-        (0..self.width)
-            .map(|x| {
-                (self.width - x)
-                    * (0..self.height)
-                        .filter(|y| self.get(x, *y).is_round())
-                        .count()
-            })
-            .sum()
-    }
+    fn hash(&self) -> u64 {
+        let mut hasher = DefaultHasher::new();
 
-    /// Uses the north and east loads as a hash
-    fn load_hash(&self) -> usize {
-        self.north_load() * self.east_load()
+        // SAFETY: `Space` is repr(u8), which should mean this is fine
+        let bytes = unsafe {
+            std::slice::from_raw_parts(self.spaces.as_ptr() as *const u8, self.spaces.len())
+        };
+        hasher.write(bytes);
+        hasher.finish()
     }
 }
 
@@ -219,18 +220,18 @@ fn part2(mut reflector: Reflector) -> usize {
     let goal = 1_000_000_000;
 
     let mut seen = IntMap::default();
-    seen.insert(reflector.load_hash(), 0);
+    seen.insert(reflector.hash(), 0);
 
     for i in 1.. {
         reflector.cycle();
-        if let Some(&j) = seen.get(&reflector.load_hash()) {
+        if let Some(&j) = seen.get(&reflector.hash()) {
             let remaining = (goal - i) % (i - j);
             for _ in 0..remaining {
                 reflector.cycle();
             }
             break;
         }
-        seen.insert(reflector.load_hash(), i);
+        seen.insert(reflector.hash(), i);
     }
 
     reflector.north_load()
