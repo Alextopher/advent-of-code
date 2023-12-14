@@ -58,7 +58,9 @@ Dynamic Programming
 
 2D Reflections
 
-### Day 14
+### Day 14 - Parabolic Reflector Dish
+
+[Falling rocks](../y22/README.md#day-14), cycle detection
 
 ### Day 15
 
