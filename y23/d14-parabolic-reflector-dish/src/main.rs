@@ -1,7 +1,6 @@
-use std::collections::HashMap;
-
 use aoc::input_str;
 use itertools::Itertools;
+use nohash_hasher::IntMap;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 enum Space {
@@ -40,7 +39,6 @@ impl Space {
 #[derive(Debug, Clone)]
 struct Reflector {
     spaces: Vec<Space>,
-    transposed: Vec<Space>,
     width: usize,
     height: usize,
 }
@@ -58,15 +56,9 @@ impl Reflector {
             .map(Space::from_char)
             .collect_vec();
 
-        let width = spaces.len() / height;
-        let transposed = (0..width)
-            .flat_map(|x| (0..height).map(|y| spaces[y * width + x]).collect_vec())
-            .collect_vec();
-
         Self {
+            width: spaces.len() / height,
             spaces,
-            transposed,
-            width,
             height,
         }
     }
@@ -82,101 +74,97 @@ impl Reflector {
     fn set_row(&mut self, y: usize, row: &[Space]) {
         debug_assert_eq!(row.len(), self.width);
         self.spaces[y * self.width..(y + 1) * self.width].copy_from_slice(row);
-
-        for (x, space) in row.iter().enumerate() {
-            self.transposed[x * self.height + y] = *space;
-        }
     }
 
-    fn get_col(&self, x: usize) -> &[Space] {
-        &self.transposed[x * self.height..(x + 1) * self.height]
+    fn get_col(&self, x: usize) -> impl ExactSizeIterator<Item = Space> + DoubleEndedIterator + '_ {
+        (0..self.height).map(move |y| self.get(x, y))
     }
 
     fn set_col(&mut self, x: usize, col: &[Space]) {
         debug_assert_eq!(col.len(), self.height);
-        self.transposed[x * self.height..(x + 1) * self.height].copy_from_slice(col);
-
         for (y, space) in col.iter().enumerate() {
             self.spaces[y * self.width + x] = *space;
         }
     }
 
-    fn fall_vertical(&mut self, north: bool) {
-        for x in 0..self.width {
-            let mut new_col = vec![Space::Empty; self.height];
-
-            let mut col = self.get_col(x).to_vec();
-            if !north {
-                col.reverse();
-            }
-
-            let mut rocks = 0;
-            let mut last_square = 0;
-            for (i, space) in col.iter().enumerate() {
-                if space.is_round() {
-                    rocks += 1;
-                } else if space.is_square() {
-                    new_col[last_square..last_square + rocks].fill(Space::Round);
-                    new_col[i] = Space::Square;
-                    rocks = 0;
-                    last_square = i + 1;
-                }
-            }
-
-            new_col[last_square..last_square + rocks].fill(Space::Round);
-
-            if !north {
-                new_col.reverse();
-            }
-            self.set_col(x, &new_col);
-        }
-    }
-
-    fn fall_horizontal(&mut self, west: bool) {
-        for y in 0..self.height {
-            let mut new_row = vec![Space::Empty; self.width];
-
-            let mut row = self.get_row(y).to_vec();
-            if !west {
-                row.reverse();
-            }
-
-            let mut rocks = 0;
-            let mut last_square = 0;
-            for (i, space) in row.iter().enumerate() {
-                if space.is_round() {
-                    rocks += 1;
-                } else if space.is_square() {
-                    new_row[last_square..last_square + rocks].fill(Space::Round);
-                    new_row[i] = Space::Square;
-                    rocks = 0;
-                    last_square = i + 1;
-                }
-            }
-
-            new_row[last_square..last_square + rocks].fill(Space::Round);
-
-            if !west {
-                new_row.reverse();
-            }
-            self.set_row(y, &new_row);
-        }
-    }
-
     fn slide_north(&mut self) {
-        self.fall_vertical(true);
+        let mut buffer = vec![Space::Empty; self.height];
+        for x in 0..self.width {
+            buffer.fill(Space::Empty);
+
+            let mut next_location = 0;
+            for (index, space) in self.get_col(x).enumerate() {
+                if space.is_round() {
+                    buffer[next_location] = Space::Round;
+                    next_location += 1;
+                } else if space.is_square() {
+                    buffer[index] = Space::Square;
+                    next_location = index + 1;
+                }
+            }
+
+            self.set_col(x, &buffer);
+        }
     }
 
     fn slide_south(&mut self) {
-        self.fall_vertical(false);
+        let mut buffer = vec![Space::Empty; self.height];
+        for x in 0..self.width {
+            buffer.fill(Space::Empty);
+
+            let mut next_location = self.height - 1;
+            for (index, space) in self.get_col(x).enumerate().rev() {
+                if space.is_round() {
+                    buffer[next_location] = Space::Round;
+                    next_location -= 1;
+                } else if space.is_square() {
+                    buffer[index] = Space::Square;
+                    next_location = index - 1;
+                }
+            }
+
+            self.set_col(x, &buffer);
+        }
     }
 
     fn slide_west(&mut self) {
-        self.fall_horizontal(true);
+        let mut buffer = vec![Space::Empty; self.width];
+        for y in 0..self.height {
+            buffer.fill(Space::Empty);
+
+            let mut next_location = 0;
+            for (index, space) in self.get_row(y).iter().enumerate() {
+                if space.is_round() {
+                    buffer[next_location] = Space::Round;
+                    next_location += 1;
+                } else if space.is_square() {
+                    buffer[index] = Space::Square;
+                    next_location = index + 1;
+                }
+            }
+
+            self.set_row(y, &buffer);
+        }
     }
 
     fn slide_east(&mut self) {
-        self.fall_horizontal(false);
+        let mut buffer = vec![Space::Empty; self.width];
+        for y in 0..self.height {
+            buffer.fill(Space::Empty);
+
+            let mut next_location = self.width - 1;
+            for (index, space) in self.get_row(y).iter().enumerate().rev() {
+                if space.is_round() {
+                    buffer[next_location] = Space::Round;
+                    next_location -= 1;
+                } else if space.is_square() {
+                    buffer[index] = Space::Square;
+                    next_location = index - 1;
+                }
+            }
+
+            self.set_row(y, &buffer);
+        }
     }
 
     fn cycle(&mut self) {
@@ -187,15 +175,28 @@ impl Reflector {
     }
 
     /// Calculates the amount of load on the north beam
-    fn load(&self) -> usize {
+    fn north_load(&self) -> usize {
         (0..self.height)
-            .map(|y| {
-                (self.height - y)
-                    * (0..self.width)
-                        .filter(|x| self.get(*x, y).is_round())
+            .map(|y| (self.height - y, self.get_row(y)))
+            .map(|(f, row)| f * row.iter().filter(|space| space.is_round()).count())
+            .sum()
+    }
+
+    /// Calculates the amount of load on the east beam
+    fn east_load(&self) -> usize {
+        (0..self.width)
+            .map(|x| {
+                (self.width - x)
+                    * (0..self.height)
+                        .filter(|y| self.get(x, *y).is_round())
                         .count()
             })
             .sum()
+    }
+
+    /// Uses the north and east loads as a hash
+    fn load_hash(&self) -> usize {
+        self.north_load() * self.east_load()
     }
 }
 
@@ -211,36 +212,42 @@ impl std::fmt::Display for Reflector {
 
 fn part1(mut reflector: Reflector) -> usize {
     reflector.slide_north();
-    reflector.load()
+    reflector.north_load()
 }
 
 fn part2(mut reflector: Reflector) -> usize {
     let goal = 1_000_000_000;
 
-    let mut seen = HashMap::new();
-    seen.insert(reflector.spaces.clone(), 0);
+    let mut seen = IntMap::default();
+    seen.insert(reflector.load_hash(), 0);
 
-    for i in (0..).skip(1) {
+    for i in 1.. {
         reflector.cycle();
-        if let Some(&j) = seen.get(&reflector.spaces) {
+        if let Some(&j) = seen.get(&reflector.load_hash()) {
             let remaining = (goal - i) % (i - j);
             for _ in 0..remaining {
                 reflector.cycle();
             }
             break;
         }
-        seen.insert(reflector.spaces.clone(), i);
+        seen.insert(reflector.load_hash(), i);
     }
 
-    reflector.load()
+    reflector.north_load()
 }
 
 fn main() {
     let input = input_str!(2023, 14);
+
     let start = std::time::Instant::now();
     let reflector = Reflector::from_str(input);
+    println!("Parse: {:?}", start.elapsed());
 
+    let start = std::time::Instant::now();
     println!("Part 1: {}", part1(reflector.clone()));
+    println!("Time: {:?}", start.elapsed());
+
+    let start = std::time::Instant::now();
     println!("Part 2: {}", part2(reflector));
     println!("Time: {:?}", start.elapsed());
 }
