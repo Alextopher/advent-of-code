@@ -48,7 +48,7 @@ Graph Cycle, Shoelace Theorem
 
 ### Day 11 - Cosmic Expansion
 
-A very sparse matrix
+A very sparse graph
 
 ### Day 12 - Hot Springs
 
@@ -60,11 +60,15 @@ Dynamic Programming
 
 ### Day 14 - Parabolic Reflector Dish
 
-[Falling rocks](../y22/README.md#day-14), cycle detection
+[Falling rocks](../y22/README.md#day-14), cycle detection, hoping hashes don't collide
 
-### Day 15
+### Day 15 - Lens Library
+
+Homemade `HashMap`
 
 ### Day 16
+
+BFS
 
 ### Day 17
 

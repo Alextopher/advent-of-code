@@ -1885,6 +1885,7 @@ name = "y23d16"
 version = "0.1.0"
 dependencies = [
  "aoc",
+ "rayon",
 ]
 
 [[package]]
