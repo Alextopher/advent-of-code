@@ -36,7 +36,7 @@ members = [
     "y23/d04-scratchcards",
     "y23/d05-if-you-give-a-seed-a-fertilizer",
     "y23/d06-wait-for-it",
-    "y23/d07-camel-cards", 
+    "y23/d07-camel-cards",
     "y23/d08-brute-forced",
     "y23/d08-haunted-wasteland",
     "y23/d09-mirage-maintenance",
@@ -56,4 +56,10 @@ members = [
     "y23/d23",
     "y23/d24",
     "y23/d25",
+
+    "y24/d01-historian-hysteria",
+    "y24/d05-print-queue",
+    "y24/d06-guard-gallivant",
+    "y24/d09-disk-fragmenter",
+    "y24/d10-hoof-it",
 ]
