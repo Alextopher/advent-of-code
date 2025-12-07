@@ -60,6 +60,14 @@ members = [
     "y24/d01-historian-hysteria",
     "y24/d05-print-queue",
     "y24/d06-guard-gallivant",
+    "y24/d07-bridge-repair",
+    "y24/d08-resonant-collinearity",
     "y24/d09-disk-fragmenter",
     "y24/d10-hoof-it",
+    "y24/d12-garden-groups",
+    "y24/d13-claw-contraption",
+    "y24/d14-restroom-redoubt",
+    "y24/d17-chronospatial-computer",
+
+    "y25/d06-trash-compactor",
 ]

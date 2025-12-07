@@ -1,6 +1,7 @@
 pub mod algs;
 pub mod get_mut;
 pub mod iterstuff;
+mod product;
 pub mod stringstuff;
 mod time;
 pub mod tree;
@@ -9,6 +10,7 @@ pub mod unionfind;
 pub use aoc_macro::input_str;
 pub use get_mut::GetMany;
 pub use iterstuff::IterJunk;
+pub use product::cartesian_product;
 pub use time::time;
 pub use tree::{Node, Tree};
 pub use unionfind::UnionFind;

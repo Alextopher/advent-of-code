@@ -115,7 +115,6 @@ fn main() {
     let part1 = time("Part 1", || part1(&map, start));
     println!("Part 1: {}", part1);
 
-    // 674 low
     let part2 = time("Part 2", || part2(&map, start));
     println!("Part 2: {}", part2);
 }

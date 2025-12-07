@@ -1,9 +1,5 @@
 # Advent of Code 2023
 
-## Goal
-
-Do not give up: If start missing days I want to continue making some kind of progress.
-
 ## Tags
 
 ### Day 1 - Trebuchet
@@ -52,7 +48,7 @@ A very sparse graph
 
 ### Day 12 - Hot Springs
 
-Dynamic Programming
+Finite Automata,
 
 ### Day 13 - Point of Incidence
 
