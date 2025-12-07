@@ -67,7 +67,7 @@ members = [
     "y24/d12-garden-groups",
     "y24/d13-claw-contraption",
     "y24/d14-restroom-redoubt",
-    "y24/d17-chronospatial-computer",
+    "y24/d17-chronospatial-computer", "y24/d18-ram-run",
 
-    "y25/d06-trash-compactor",
+    "y25/d06-trash-compactor", "y25/d07-laboratories",
 ]

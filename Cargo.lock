@@ -2035,7 +2035,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "y24d18"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "binary-heap-plus",
+]
+
+[[package]]
 name = "y25d06"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+]
+
+[[package]]
+name = "y25d07"
 version = "0.1.0"
 dependencies = [
  "aoc",
