@@ -2,7 +2,7 @@
 resolver = "2"
 members = [
     "aoc",
-    "aoc-macro",
+    "aoc-macro", "y21/d18-snailfish",
 
     "y22/d01-calorie-counting",
     "y22/d02-rock-paper-scissors",
@@ -70,4 +70,15 @@ members = [
     "y24/d17-chronospatial-computer", "y24/d18-ram-run",
 
     "y25/d06-trash-compactor", "y25/d07-laboratories",
+    "y24/d15-warehouse-woes",
+    "y24/d16-reindeer-maze",
+
+    "y25/d01-secret-entrance",
+    "y25/d02-gift-shop",
+    "y25/d03-lobby",
+    "y25/d04-printing-department",
+    "y25/d05-cafeteria",
+    "y25/d08-playground",
+    "y25/d09-movie-theater",
+    "y25/d12-christmas-tree-farm",
 ]

@@ -21,10 +21,10 @@ fn get_lookup_table() -> HashMap<&'static str, &'static str> {
 fn get_number(line: impl AsRef<str>) -> usize {
     println!("{}", line.as_ref());
 
-    let numbers = line.as_ref().bytes().filter(u8::is_ascii_digit);
+    let mut numbers = line.as_ref().bytes().filter(u8::is_ascii_digit);
 
     let first = (numbers.clone().next().unwrap() - b'0') as usize;
-    let last = (numbers.last().unwrap() - b'0') as usize;
+    let last = (numbers.next_back().unwrap() - b'0') as usize;
 
     first * 10 + last
 }

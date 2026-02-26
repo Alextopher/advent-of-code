@@ -64,7 +64,7 @@ fn process(gears: &[Condition], groups: &[usize]) -> usize {
         .iter()
         .flat_map(|g| {
             std::iter::once(States::Spacing)
-                .chain(std::iter::repeat(States::AcceptTag).take(g - 1))
+                .chain(std::iter::repeat_n(States::AcceptTag, g - 1))
                 .chain(std::iter::once(States::AcceptDot))
         })
         .collect();

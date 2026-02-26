@@ -1,8 +1,7 @@
 [package]
-name = "d18-snailfish"
+name = "y24d15"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
 aoc = { path = "../../aoc" }
-itertools = "0.14.0"

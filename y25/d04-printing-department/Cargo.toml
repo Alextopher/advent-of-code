@@ -1,8 +1,9 @@
 [package]
-name = "d18-snailfish"
+name = "y25d04"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
 aoc = { path = "../../aoc" }
-itertools = "0.14.0"
+priority-queue = "2.7.0"
+rustc-hash = "2.1.1"

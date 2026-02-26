@@ -32,25 +32,19 @@ impl Parse for InputArgs {
 
 #[proc_macro]
 pub fn input_str(input: TokenStream) -> TokenStream {
-    // Step 1: parse the input using the syn crate
+    // Parse the input arguments
     let args = syn::parse_macro_input!(input as InputArgs);
 
-    // Step 2: get the input file if it exists
+    // Construct the input file path
     let input_file = format!("inputs/{}-{:02}.txt", args.year, args.day);
-
     let input_file = std::path::Path::new(&input_file);
 
+    // Download the input file if it doesn't exist
     if !input_file.exists() {
-        // Step 3: get the session from the cookie file, or from an environment variable
-        let mut cookie = std::env::var("AOC_COOKIE").ok();
+        // Try to get the session cookie from environment variable first, then from file
+        let cookie = get_session_cookie();
 
-        if cookie.is_none() {
-            cookie = std::fs::read_to_string("inputs/cookie.txt").ok();
-        }
-
-        let cookie = cookie.expect("Failed to get cookie");
-
-        // Step 4: download the input file
+        // Download the input
         let client = reqwest::blocking::Client::new();
         let url = format!(
             "https://adventofcode.com/{}/day/{}/input",
@@ -58,25 +52,60 @@ pub fn input_str(input: TokenStream) -> TokenStream {
         );
 
         let resp = client
-            .get(url)
-            .header("Cookie", cookie)
+            .get(&url)
+            .header("Cookie", format!("session={}", cookie.trim()))
             .send()
-            .expect("Failed to send request");
+            .expect("Failed to send request to Advent of Code");
 
-        // Verify that the code is 200
+        // Verify the response status
         if resp.status() != reqwest::StatusCode::OK {
-            panic!("Failed to get input file");
+            panic!(
+                "Failed to download input for year {} day {}. Status: {}. \
+                Make sure your session cookie is valid and you have access to this puzzle.",
+                args.year,
+                args.day,
+                resp.status()
+            );
         }
 
-        // Step 5: write the input file
-        std::fs::write(input_file, resp.text().expect("Failed to get text"))
-            .expect("Failed to write input file");
+        // Ensure the inputs directory exists
+        std::fs::create_dir_all("inputs").expect("Failed to create inputs directory");
+
+        // Write the input file
+        let content = resp.text().expect("Failed to read response text");
+        std::fs::write(input_file, content).expect("Failed to write input file");
     }
 
-    // Step 6: read the input file
+    // Read the input file
     let input = std::fs::read_to_string(input_file).expect("Failed to read input file");
 
-    // Step 7: return the input file as a `&'static str`
+    // Return the input as a raw string literal
     let input = format!("r#\"{}\"#", input);
-    input.parse().expect("Failed to parse input")
+    input.parse().expect("Failed to parse input as TokenStream")
+}
+
+/// Get the session cookie from environment variable or file
+fn get_session_cookie() -> String {
+    // First, try to get cookie from environment variable
+    if let Ok(cookie) = std::env::var("AOC_COOKIE") {
+        return cookie;
+    }
+
+    // If environment variable is not set, try to read from file
+    if let Ok(cookie) = std::fs::read_to_string("inputs/cookie.txt") {
+        return cookie;
+    }
+
+    // If both fail, provide helpful error message
+    panic!(
+        "No session cookie found! Please either:\n\
+        1. Set the AOC_COOKIE environment variable with your session cookie, or\n\
+        2. Create 'inputs/cookie.txt' containing your session cookie.\n\
+        \n\
+        You can find your session cookie by:\n\
+        - Going to https://adventofcode.com\n\
+        - Opening browser DevTools (F12)\n\
+        - Going to Application/Storage > Cookies\n\
+        - Copying the value of the 'session' cookie"
+    );
 }

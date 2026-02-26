@@ -2,6 +2,9 @@
 pub struct UnionFind {
     sizes: Vec<usize>,
     ids: Vec<usize>,
+
+    // tracks the number of groups
+    num_groups: usize,
 }
 
 impl UnionFind {
@@ -9,7 +12,16 @@ impl UnionFind {
         UnionFind {
             sizes: vec![1; size],
             ids: (0..size).collect(),
+            num_groups: size,
         }
+    }
+
+    pub fn inner(&self) -> (&[usize], &[usize]) {
+        (&self.sizes, &self.ids)
+    }
+
+    pub fn into_inner(self) -> (Vec<usize>, Vec<usize>) {
+        (self.sizes, self.ids)
     }
 
     /// `len` returns the number of elements in the union find.
@@ -64,6 +76,8 @@ impl UnionFind {
             self.ids[root1] = self.ids[root2];
             self.sizes[root2] += self.sizes[root1];
         }
+
+        self.num_groups -= 1;
     }
 
     /// `connected` returns true if the elements at index `i` and `j` are in
@@ -76,5 +90,9 @@ impl UnionFind {
     pub fn size(&mut self, a: usize) -> usize {
         let root = self.find(a);
         self.sizes[root]
+    }
+
+    pub fn num_groups(&self) -> usize {
+        self.num_groups
     }
 }

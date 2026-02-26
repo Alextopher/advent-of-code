@@ -4,7 +4,6 @@ use aoc::{get_lines, input_str};
 use itertools::Itertools;
 
 #[allow(clippy::needless_range_loop)]
-
 fn solution(content: &str) -> (usize, i32) {
     let mut time = Instant::now();
 

@@ -194,4 +194,62 @@ pub trait IterJunk: Iterator {
             Some(*sum)
         })
     }
+
+    /// `max_by_key_first` returns the element that gives the maximum value from the
+    /// specified function. If several elements are equally maximum, the first element
+    /// is returned. If the iterator is empty, `None` is returned.
+    ///
+    /// This differs from the standard library's `max_by_key` which returns the last
+    /// element when there are ties.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use aoc::iterstuff::IterJunk;
+    ///
+    /// let a = [1, 2, 3, 2, 3];
+    /// let result = a.iter().enumerate().max_by_key_first(|&(_, &val)| val);
+    /// assert_eq!(result, Some((2, &3))); // First occurrence of 3
+    ///
+    /// // Compare with standard max_by_key which returns the last occurrence:
+    /// let std_result = a.iter().enumerate().max_by_key(|&(_, &val)| val);
+    /// assert_eq!(std_result, Some((4, &3))); // Last occurrence of 3
+    /// ```
+    fn max_by_key_first<B, F>(self, mut f: F) -> Option<Self::Item>
+    where
+        Self: Sized,
+        B: Ord,
+        F: FnMut(&Self::Item) -> B,
+    {
+        self.reduce(|a, b| if f(&a) >= f(&b) { a } else { b })
+    }
+
+    /// `min_by_key_first` returns the element that gives the minimum value from the
+    /// specified function. If several elements are equally minimum, the first element
+    /// is returned. If the iterator is empty, `None` is returned.
+    ///
+    /// This differs from the standard library's `min_by_key` which returns the last
+    /// element when there are ties.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use aoc::iterstuff::IterJunk;
+    ///
+    /// let a = [3, 2, 1, 2, 1];
+    /// let result = a.iter().enumerate().min_by_key_first(|&(_, &val)| val);
+    /// assert_eq!(result, Some((2, &1))); // First occurrence of 1
+    ///
+    /// // Compare with standard min_by_key which returns the last occurrence:
+    /// let std_result = a.iter().enumerate().min_by_key(|&(_, &val)| val);
+    /// assert_eq!(std_result, Some((4, &1))); // Last occurrence of 1
+    /// ```
+    fn min_by_key_first<B, F>(self, mut f: F) -> Option<Self::Item>
+    where
+        Self: Sized,
+        B: Ord,
+        F: FnMut(&Self::Item) -> B,
+    {
+        self.reduce(|a, b| if f(&a) <= f(&b) { a } else { b })
+    }
 }

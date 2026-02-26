@@ -190,11 +190,7 @@ impl Path {
 
     /// Returns the difference in length between this path and another path
     fn length_diff(&self, other: &Path) -> u8 {
-        if self.length > other.length {
-            self.length - other.length
-        } else {
-            other.length - self.length
-        }
+        self.length.abs_diff(other.length)
     }
 }
 
